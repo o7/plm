@@ -1,0 +1,67 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SYNRC KVS ADM" />
+  <meta name="author" content="Maxim Sokhatsky" />
+  <title>KVS</title>
+  <link rel="stylesheet" href="css/blank.css" />
+  <link rel="stylesheet" href="css/adm.css" />
+  <link href="https://fonts.googleapis.com/css?family=Michroma" rel="stylesheet">
+  <script> function setup_window(name) { console.log("OK"); }; </script>
+</head>
+
+<body>
+
+  <nav>
+    <a href='login.htm'>LOGIN</a>
+    <a href='plm.htm'>PLM</a>
+    <a href='bpe.htm'>BPE</a>
+    <a href='form.htm'>FORM</a>
+    <a href='kvs.htm' style="background:#ededed;">KVS</a>
+ </nav>
+
+<aside>
+
+  <article>
+
+    <section>
+      <h2>KVS</h2>
+      <p>Abstract chain database</p>
+      <div>
+      SSD: <span id=disc></span>
+      RAM: <span id=ram></span><br>
+      SESSION: <span id=session></span>
+      VM: <span id=enode></span>
+      </div>
+        </section>
+
+    <div class=container>
+      <div><h2>WRITERS</h2><div  id=writers></div></div>
+      <div><h2>CHAINS</h2><div  id=feeds>To display the chain select the writer.</div></div>
+    </div>
+
+  </article>
+
+</aside>
+
+<main>
+</main>
+
+    <script src='https://ws.n2o.space/priv/utf8.js'></script>
+    <script src='https://ws.n2o.space/priv/bert.js'></script>
+    <script src='https://ws.n2o.space/priv/heart.js'></script>
+    <script src='https://ws.n2o.space/priv/ieee754.js'></script>
+    <script src='https://ws.n2o.space/priv/n2o.js'></script>
+    <script>host = location.hostname === 'bud.n2o.space' ? 'ns.synrc.com' : location.hostname;
+                port = 8043;</script>
+    <script src='https://ws.n2o.space/priv/ftp.js'></script>
+    <script src='https://ws.n2o.space/priv/nitro.js'></script>
+    <script>protos = [$bert]; N2O_start();
+            document.querySelector('.container')
+                    .addEventListener('click', function(e) { e.preventDefault() });</script>
+</body>
+
+</html>
