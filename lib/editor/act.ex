@@ -71,7 +71,7 @@ defmodule PLM.Act do
       end
 
     case KVS.get('/bpe/proc', id) do
-      {:error, :not_found} ->
+      {:error, _} ->
         NITRO.update(:n, "ERR")
         NITRO.update(:desc, "No process found.")
         NITRO.update(:num, "ERR")
