@@ -18,7 +18,7 @@ defmodule PLM.Mixfile do
       licenses: ["ISC"],
       maintainers: ["Namdak Tonpa"],
       name: :plm,
-      links: %{"GitHub" => "https://github.com/o7/PLM"}
+      links: %{"GitHub" => "https://github.com/o7/plm"}
     ]
   end
 
