@@ -4,7 +4,7 @@ defmodule PLM.Mixfile do
   def project() do
     [
       app: :plm,
-      version: "0.7.0",
+      version: "0.7.1",
       elixir: "~> 1.7",
       description: "PLM Product Lifecycle Management",
       package: package(),
