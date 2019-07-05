@@ -135,8 +135,8 @@ defmodule PLM.Product do
     end
   end
 
-  def event(:create_investment), do: IO.inspect [NITRO.hide(:ctrl), NITRO.show(:frms)]
-  def event(:create_income), do: IO.inspect [NITRO.hide(:ctrl), NITRO.show(:frms)]
+  def event(:create_investment), do: [NITRO.hide(:ctrl), NITRO.show(:frms)]
+  def event(:create_income), do: [NITRO.hide(:ctrl), NITRO.show(:frms)]
   def event(:create_outcome), do: [NITRO.hide(:ctrl), NITRO.show(:frms)]
   def event({:Discard, []}), do: [NITRO.hide(:frms), NITRO.show(:ctrl)]
 
