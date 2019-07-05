@@ -16,6 +16,7 @@ defmodule PLM.Routes do
   def route(<<"login", _::binary>>), do: PLM.Login
   def route(<<"form", _::binary>>), do: PLM.Forms
   def route(<<"act", _::binary>>), do: PLM.Actor
+  def route(<<"product", _::binary>>), do: PLM.Product
   def route(<<"kvs", _::binary>>), do: :kvs_adm
   def route(<<"plm", _::binary>>), do: PLM.Products
   def route(<<"app/login", _::binary>>), do: PLM.Login
