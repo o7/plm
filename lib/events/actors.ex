@@ -32,7 +32,7 @@ defmodule PLM.Actors do
       :ctrl,
       link(
         id: :creator,
-        body: "New",
+        body: "New Process",
         postback: :create,
         class: [:button, :sgreen]
       )
