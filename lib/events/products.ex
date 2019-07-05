@@ -32,27 +32,13 @@ defmodule PLM.Products do
   end
 
   def months() do
-    zip =
-      :lists.zip(:lists.seq(1, 12), [
-        :Jan,
-        :Feb,
-        :Mar,
-        :Apr,
-        :May,
-        :Jun,
-        :Jul,
-        :Aug,
-        :Sep,
-        :Oct,
-        :Nov,
-        :Dec
-      ])
-
     {{_, x, _}, _} = :calendar.local_time()
+    h1 = [:Jan, :Feb, :Mar, :Apr, :May, :Jun]
+    h2 = [:Jul, :Aug, :Sep, :Oct, :Nov, :Dec]
+    zip = :lists.zip(:lists.seq(1, 12), h1 ++ h2)
     {a, b} = :lists.split(x, zip)
     piz = b ++ a
     half = :lists.reverse(:lists.sublist(:lists.reverse(piz, 1), 6))
-
     {x, :lists.flatten(:io_lib.format("~p", [:erlang.element(2, :lists.unzip(half))]))}
   end
 
@@ -72,7 +58,7 @@ defmodule PLM.Products do
 
   def event({:chart, code, x, y, z, i}) do
     NITRO.insert_bottom(:tableRow, PLM.Rows.Product.new(code, i))
-    NITRO.wire('draw_chart(\'' ++ code ++ '\',' ++ x ++ ',' ++ y ++ ',' ++ z ++ ');')
+    NITRO.wire(['draw_chart(\'', code, '\',', x, ',', y, ',', z, ');'])
   end
 
   def event({:invest, code}), do: NITRO.redirect("product.htm?p=" <> code)
