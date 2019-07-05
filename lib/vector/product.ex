@@ -11,7 +11,7 @@ defmodule PLM.Rows.Product do
   def id(), do: ERP."Product"()
 
   def new(name, prod) do
-    code = NITRO.to_binary(ERP."Product"(prod, :code))
+    code = ERP."Product"(prod, :code) |> NITRO.to_binary
 
     panel(
       id: FORM.atom([:tr, name]),
@@ -39,7 +39,7 @@ defmodule PLM.Rows.Product do
         ),
         panel(
           class: :column6,
-          body: link(class: [:sgreen, :button], postback: :null, body: "Invest")
+          body: link(class: [:sgreen, :button], postback: {:invest,code}, body: "Invest")
         )
       ]
     )

@@ -67,6 +67,8 @@ defmodule PLM.Products do
     end
   end
 
+  def event({:invest, code}), do: NITRO.redirect("product.htm?p=" <> code)
+
   def event({:chart, code, x, y, i}) do
     NITRO.insert_bottom(:tableRow, PLM.Rows.Product.new(code, i))
     NITRO.wire('draw_chart(\'' ++ code ++ '\',' ++ x ++ ',' ++ y ++ ');')

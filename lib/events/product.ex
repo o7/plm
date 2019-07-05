@@ -9,9 +9,9 @@ defmodule PLM.Product do
       id: :header,
       class: :th,
       body: [
-        panel(class: :column66, body: "Id"),
+        panel(class: :column33, body: "Investmnent"),
         panel(class: :column10, body: "Amount"),
-        panel(class: :column10, body: "From")
+        panel(class: :column2, body: "From")
       ]
     )
   end
@@ -21,7 +21,7 @@ defmodule PLM.Product do
       id: :header,
       class: :th,
       body: [
-        panel(class: :column66, body: "Invoice"),
+        panel(class: :column66, body: "Monthly Invoice"),
         panel(class: :column10, body: "Amount"),
         panel(class: :column10, body: "From")
       ]
@@ -33,7 +33,7 @@ defmodule PLM.Product do
       id: :header,
       class: :th,
       body: [
-        panel(class: :column66, body: "Invoice"),
+        panel(class: :column66, body: "Subaccount"),
         panel(class: :column10, body: "Amount"),
         panel(class: :column10, body: "From")
       ]
@@ -92,9 +92,29 @@ defmodule PLM.Product do
     NITRO.insert_bottom(
       :ctrl,
       link(
-        id: :creator,
+        id: :create_investment,
         body: "New Investment",
-        postback: :create,
+        postback: :create_investment,
+        class: [:button, :sgreen]
+      )
+    )
+
+    NITRO.insert_bottom(
+      :ctrl,
+      link(
+        id: :create_income,
+        body: "New Income",
+        postback: :create_income,
+        class: [:button, :sgreen]
+      )
+    )
+
+    NITRO.insert_bottom(
+      :ctrl,
+      link(
+        id: :create_outcome,
+        body: "New Outcome",
+        postback: :create_outcome,
         class: [:button, :sgreen]
       )
     )
@@ -115,7 +135,9 @@ defmodule PLM.Product do
     end
   end
 
-  def event(:create), do: [NITRO.hide(:ctrl), NITRO.show(:frms)]
+  def event(:create_investment), do: IO.inspect [NITRO.hide(:ctrl), NITRO.show(:frms)]
+  def event(:create_income), do: IO.inspect [NITRO.hide(:ctrl), NITRO.show(:frms)]
+  def event(:create_outcome), do: [NITRO.hide(:ctrl), NITRO.show(:frms)]
   def event({:Discard, []}), do: [NITRO.hide(:frms), NITRO.show(:ctrl)]
 
   def event(any), do: IO.inspect(any)

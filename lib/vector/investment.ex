@@ -19,7 +19,7 @@ defmodule PLM.Rows.Investment do
       class: :td,
       body: [
         panel(
-          class: :column66,
+          class: :column33,
           body: id
         ),
         panel(
@@ -27,7 +27,7 @@ defmodule PLM.Rows.Investment do
           body: :erlang.integer_to_list(price * volume)
         ),
         panel(
-          class: :column10,
+          class: :column2,
           body: tic
         )
       ]
