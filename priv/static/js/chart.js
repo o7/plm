@@ -1,7 +1,7 @@
 
-function draw_chart(id,calendar,payments) {
+function draw_chart(id,calendar,payments,expanses) {
     var ctx = document.getElementById(id).getContext('2d');
-    new Chart(ctx, {
+     new Chart(ctx, {
     type: 'line',
     data: {
         labels: calendar,
@@ -10,7 +10,7 @@ function draw_chart(id,calendar,payments) {
             label: 'Outcome',
             backgroundColor: '#5ca135',
             borderColor: 'green',
-            data: [0, 10, 5, 2, 45, 0]
+            data: expanses
         },
         {
             label: 'Income',
