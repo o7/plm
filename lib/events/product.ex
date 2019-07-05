@@ -80,6 +80,23 @@ defmodule PLM.Product do
     NITRO.insert_top(:investmentsHead, PLM.Product.investmentsHeader())
     NITRO.insert_top(:outcomeHead, PLM.Product.outcomeHeader())
     NITRO.insert_top(:incomeHead, PLM.Product.incomeHeader())
+    NITRO.clear(:frms)
+    NITRO.clear(:ctrl)
+
+    mod = PLM.Forms.Act
+    NITRO.insert_bottom(:frms, FORM.new(mod.new(mod, mod.id()), mod.id()))
+
+    NITRO.insert_bottom(
+      :ctrl,
+      link(
+        id: :creator,
+        body: "New Investment",
+        postback: :create,
+        class: [:button, :sgreen]
+      )
+    )
+
+    NITRO.hide(:frms)
 
     code = :p |> NITRO.qc |> NITRO.to_list |> pushInvestments |> pushIncome |> pushOutcome
 
@@ -95,6 +112,9 @@ defmodule PLM.Product do
     end
 
   end
+
+  def event(:create), do: [NITRO.hide(:ctrl), NITRO.show(:frms)]
+  def event({:Discard, []}), do: [NITRO.hide(:frms), NITRO.show(:ctrl)]
 
   def event(any), do: IO.inspect(any)
 end
