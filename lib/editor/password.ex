@@ -1,4 +1,4 @@
-defmodule PLM.Pass do
+defmodule PLM.Forms.Pass do
   use N2O, with: [:n2o, :nitro]
   use FORM, with: [:form]
   require Logger

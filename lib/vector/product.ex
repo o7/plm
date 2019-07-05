@@ -1,4 +1,4 @@
-defmodule PLM.Product do
+defmodule PLM.Rows.Product do
   use N2O, with: [:n2o, :nitro]
   use FORM, with: [:form]
   require ERP

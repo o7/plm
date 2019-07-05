@@ -5,7 +5,7 @@ defmodule PLM.Login do
 
   def event(:init) do
     NITRO.clear(:stand)
-    mod = PLM.Pass
+    mod = PLM.Forms.Pass
     NITRO.insert_bottom(:stand, FORM.new(mod.new(mod, mod.id()), mod.id()))
   end
 

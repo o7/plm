@@ -53,7 +53,7 @@ defmodule PLM.Products do
       code = ERP."Product"(i, :code)
       h = 6 # months
       s = :lists.map(fn ERP."Payment"(price: {_, a2}, volume: {_, b2}) -> :erlang.integer_to_list(a2 * b2) end,
-          KVS.head('/plm/' ++ code ++ '/payments', h))
+          KVS.head('/plm/' ++ code ++ '/income', h))
 
       y = '[' ++ :string.join(s ++ :lists.duplicate(h - length(s), '0'), ',') ++ ']'
       {_, x} = months()
@@ -63,7 +63,7 @@ defmodule PLM.Products do
   end
 
   def event({:chart, code, x, y, i}) do
-    NITRO.insert_bottom(:tableRow, PLM.Product.new(code, i))
+    NITRO.insert_bottom(:tableRow, PLM.Rows.Product.new(code, i))
     NITRO.wire('draw_chart(\'' ++ code ++ '\',' ++ x ++ ',' ++ y ++ ');')
   end
 
