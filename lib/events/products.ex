@@ -11,11 +11,10 @@ defmodule PLM.Products do
       class: :th,
       body: [
         panel(class: :column6, body: "Code"),
-        panel(class: :column10, body: "Type"),
+        panel(class: :column10, body: "KPI"),
         panel(class: :column6, body: "People"),
-        panel(class: :column20, body: "Overall"),
-        panel(class: :column20, body: "Income"),
-        panel(class: :column20, body: "Details")
+        panel(class: :column20, body: "Income/Outcome"),
+        panel(class: :column20, body: "Control")
       ]
     )
   end
@@ -52,19 +51,21 @@ defmodule PLM.Products do
 
     for i <- KVS.feed('/plm/products') do
       code = ERP."Product"(i, :code)
-      _ = KVS.head('/plm/' ++ code ++ '/payments', 24)
+      h = 6 # months
+      s = :lists.map(fn ERP."Payment"(price: {_, a2}, volume: {_, b2}) -> :erlang.integer_to_list(a2 * b2) end,
+          KVS.head('/plm/' ++ code ++ '/payments', h))
 
-      NITRO.insert_bottom(
-        :tableRow,
-        PLM.Product.new(code, i)
-      )
-
+      y = '[' ++ :string.join(s ++ :lists.duplicate(h - length(s), '0'), ',') ++ ']'
       {_, x} = months()
-      NITRO.wire('draw_chart(\'' ++ code ++ '\',' ++ x ++ ');')
+
+      send self(), {:direct,{:chart, code, x, y, i}}
     end
   end
 
-  def event(:link_pressed), do: IO.inspect("OK!!!")
+  def event({:chart, code, x, y, i}) do
+    NITRO.insert_bottom(:tableRow, PLM.Product.new(code, i))
+    NITRO.wire('draw_chart(\'' ++ code ++ '\',' ++ x ++ ',' ++ y ++ ');')
+  end
 
   def event(any), do: IO.inspect(any)
 end

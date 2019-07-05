@@ -22,6 +22,14 @@ defmodule PLM.Pass do
           postback: {:Close, []}
         ),
         but(
+          id: :sms,
+          name: :sms,
+          title: "SMS",
+          class: :cancel,
+          sources: [:user, :otp],
+          postback: {:SMS, []}
+        ),
+        but(
           id: :proceed,
           name: :proceed,
           title: "Proceed",

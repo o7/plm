@@ -21,19 +21,18 @@ defmodule PLM.Product do
         ),
         panel(
           class: :column6,
-          body: NITRO.to_list(ERP."Product"(prod, :type))
-        ),
-        panel(class: :column6, body: ""),
-        panel(
-          class: :column20,
-          body: ""
+          body: "EBITDA:<br>ROI:<br>Revenue:"
         ),
         panel(
           class: :column20,
+          body: "Maxim"
+        ),
+        panel(
+          class: :column30,
           body:
             panel(
               class: :chart,
-              body: "<canvas id=\"" <> NITRO.to_binary(name) <> "\"></canvas>"
+              body: "<canvas heigh=100 id=\"" <> NITRO.to_binary(name) <> "\"></canvas>"
             )
         ),
         panel(

@@ -43,7 +43,7 @@ article {
 }
 
 .container > div {
-  width: 390px;
+  width: 400px;
   overflow-x: auto;
   background: white;
   box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
@@ -73,7 +73,7 @@ article {
     position: absolute;
     top: 0;
     right: 0;
-    width: calc(100% - 420px);
+    width: calc(100% - 430px);
   }
 }
 
