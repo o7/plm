@@ -19,6 +19,18 @@ defmodule PLM.Products do
     )
   end
 
+  def series6(income),
+    do: '[' ++ :string.join(income ++ :lists.duplicate(6 - length(income), '0'), ',') ++ ']'
+
+  def payments6(feed) do
+    :lists.map(
+      fn ERP."Payment"(price: {_, a2}, volume: {_, b2}) ->
+        :erlang.integer_to_list(a2 * b2)
+      end,
+      KVS.head(feed, 6)
+    )
+  end
+
   def months() do
     zip =
       :lists.zip(:lists.seq(1, 12), [
@@ -51,35 +63,18 @@ defmodule PLM.Products do
 
     for i <- KVS.feed('/plm/products') do
       code = ERP."Product"(i, :code)
-      # months
-      {_, x} = months()
-      h = 6
-
-      income =
-        :lists.map(
-          fn ERP."Payment"(price: {_, a2}, volume: {_, b2}) -> :erlang.integer_to_list(a2 * b2) end,
-          KVS.head('/plm/' ++ code ++ '/income', h)
-        )
-
-      outcome =
-        :lists.map(
-          fn ERP."Payment"(price: {_, a2}, volume: {_, b2}) -> :erlang.integer_to_list(a2 * b2) end,
-          KVS.head('/plm/' ++ code ++ '/outcome', h)
-        )
-
-      y = '[' ++ :string.join(income ++ :lists.duplicate(h - length(income), '0'), ',') ++ ']'
-      z = '[' ++ :string.join(outcome ++ :lists.duplicate(h - length(outcome), '0'), ',') ++ ']'
-
-      send(self(), {:direct, {:chart, code, x, y, z, i}})
+      {_, scale6} = months()
+      income = payments6('/plm/' ++ code ++ '/income')
+      outcome = payments6('/plm/' ++ code ++ '/outcome')
+      send(self(), {:direct, {:chart, code, scale6, series6(income), series6(outcome), i}})
     end
   end
 
-  def event({:invest, code}), do: NITRO.redirect("product.htm?p=" <> code)
-
-  def event({:chart, code, x, y, z,  i}) do
+  def event({:chart, code, x, y, z, i}) do
     NITRO.insert_bottom(:tableRow, PLM.Rows.Product.new(code, i))
     NITRO.wire('draw_chart(\'' ++ code ++ '\',' ++ x ++ ',' ++ y ++ ',' ++ z ++ ');')
   end
 
+  def event({:invest, code}), do: NITRO.redirect("product.htm?p=" <> code)
   def event(any), do: IO.inspect(any)
 end
