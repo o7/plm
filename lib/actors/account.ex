@@ -1,4 +1,7 @@
 defmodule PLM.Account do
+  @moduledoc """
+  `PLM.Account` is a process that handles user investments.
+  """
   use BPE, with: [:bpe]
   require Record
   Record.defrecord(:close_account, [])

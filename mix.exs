@@ -31,7 +31,7 @@ defmodule PLM.Mixfile do
 
   def deps() do
     [
-      {:ex_doc, "~> 0.11.0", only: :dev},
+      {:ex_doc, "~> 0.20.2", only: :dev},
       {:cowboy, "~> 2.5.0"},
       {:rocksdb, "~> 1.2.0"},
       {:n2o, "~> 6.7.1"},
