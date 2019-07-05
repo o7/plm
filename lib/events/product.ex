@@ -9,9 +9,9 @@ defmodule PLM.Product do
       id: :header,
       class: :th,
       body: [
-        panel(class: :column6, body: "Id"),
-        panel(class: :column20, body: "Amount"),
-        panel(class: :column20, body: "From")
+        panel(class: :column66, body: "Id"),
+        panel(class: :column10, body: "Amount"),
+        panel(class: :column10, body: "From")
       ]
     )
   end
@@ -21,9 +21,9 @@ defmodule PLM.Product do
       id: :header,
       class: :th,
       body: [
-        panel(class: :column6, body: "Invoice"),
-        panel(class: :column20, body: "Amount"),
-        panel(class: :column20, body: "From")
+        panel(class: :column66, body: "Invoice"),
+        panel(class: :column10, body: "Amount"),
+        panel(class: :column10, body: "From")
       ]
     )
   end
@@ -33,9 +33,9 @@ defmodule PLM.Product do
       id: :header,
       class: :th,
       body: [
-        panel(class: :column6, body: "Invoice"),
-        panel(class: :column20, body: "Amount"),
-        panel(class: :column20, body: "From")
+        panel(class: :column66, body: "Invoice"),
+        panel(class: :column10, body: "Amount"),
+        panel(class: :column10, body: "From")
       ]
     )
   end
@@ -47,6 +47,7 @@ defmodule PLM.Product do
         PLM.Rows.Investment.new(FORM.atom([:row, :investment, code]), i)
       )
     end
+
     code
   end
 
@@ -57,6 +58,7 @@ defmodule PLM.Product do
         PLM.Rows.Payment.new(FORM.atom([:row, :income, code]), i)
       )
     end
+
     code
   end
 
@@ -67,6 +69,7 @@ defmodule PLM.Product do
         PLM.Rows.Payment.new(FORM.atom([:row, :outcome, code]), i)
       )
     end
+
     code
   end
 
@@ -98,7 +101,7 @@ defmodule PLM.Product do
 
     NITRO.hide(:frms)
 
-    code = :p |> NITRO.qc |> NITRO.to_list |> pushInvestments |> pushIncome |> pushOutcome
+    code = :p |> NITRO.qc() |> NITRO.to_list() |> pushInvestments |> pushIncome |> pushOutcome
 
     case KVS.get(:writer, '/plm/' ++ code ++ '/income') do
       {:error, _} ->
@@ -110,7 +113,6 @@ defmodule PLM.Product do
         NITRO.update(:n, code)
         NITRO.update(:num, code)
     end
-
   end
 
   def event(:create), do: [NITRO.hide(:ctrl), NITRO.show(:frms)]

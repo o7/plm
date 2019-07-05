@@ -98,6 +98,8 @@ aside a {
     color: CadetBlue;
 }
 
+.td .table { font-size: 10pt; }
+
 aside a:visited {
     color: CadetBlue;
 }
@@ -258,7 +260,7 @@ li { list-style-position: inside; }
     }
 
     main section {
-        padding-top: 20px;
+        padding-top: 0px;
     }
 
     main h3 {
@@ -337,7 +339,7 @@ li { list-style-position: inside; }
     }
 
     main section:first-child {
-        padding-top: 100px;
+        padding-top: 0px;
     }
 
     main h3 {

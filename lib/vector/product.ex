@@ -12,13 +12,14 @@ defmodule PLM.Rows.Product do
 
   def new(name, prod) do
     code = NITRO.to_binary(ERP."Product"(prod, :code))
+
     panel(
       id: FORM.atom([:tr, name]),
       class: :td,
       body: [
         panel(
           class: :column6,
-          body: link(href: "product.htm?p=" <> code , body: code)
+          body: link(href: "product.htm?p=" <> code, body: code)
         ),
         panel(
           class: :column6,

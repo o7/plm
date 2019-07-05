@@ -51,14 +51,19 @@ defmodule PLM.Products do
 
     for i <- KVS.feed('/plm/products') do
       code = ERP."Product"(i, :code)
-      h = 6 # months
-      s = :lists.map(fn ERP."Payment"(price: {_, a2}, volume: {_, b2}) -> :erlang.integer_to_list(a2 * b2) end,
-          KVS.head('/plm/' ++ code ++ '/income', h))
+      # months
+      h = 6
+
+      s =
+        :lists.map(
+          fn ERP."Payment"(price: {_, a2}, volume: {_, b2}) -> :erlang.integer_to_list(a2 * b2) end,
+          KVS.head('/plm/' ++ code ++ '/income', h)
+        )
 
       y = '[' ++ :string.join(s ++ :lists.duplicate(h - length(s), '0'), ',') ++ ']'
       {_, x} = months()
 
-      send self(), {:direct,{:chart, code, x, y, i}}
+      send(self(), {:direct, {:chart, code, x, y, i}})
     end
   end
 

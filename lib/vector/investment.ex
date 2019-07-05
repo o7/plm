@@ -13,7 +13,7 @@ defmodule PLM.Rows.Investment do
 
   def id(), do: ERP."Investment"()
 
-  def new(name, ERP."Investment"(id: id, price: {_,price}, volume: {_,volume}, from: tic)) do
+  def new(name, ERP."Investment"(id: id, price: {_, price}, volume: {_, volume}, from: tic)) do
     panel(
       id: FORM.atom([:tr, NITRO.to_list(name)]),
       class: :td,
