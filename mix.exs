@@ -39,7 +39,7 @@ defmodule PLM.Mixfile do
       {:kvs, "~> 6.7.4"},
       {:erp, "~> 0.7.6"},
       {:bpe, "~> 4.7.3"},
-      {:nitro, "~> 4.7.2"},
+      {:nitro, "~> 4.7.3"},
       {:form, "~> 4.7.0"}
     ]
   end
