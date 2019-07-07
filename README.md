@@ -16,6 +16,8 @@ Features
 Prerequisites
 -------------
 
+* Erlang/OTP 21.0
+* Elixir 1.8.1
 * cmake (rocksdb)
 
 Run
