@@ -35,7 +35,7 @@ defmodule PLM.Mixfile do
       {:asn1ex, github: "vicentfg/asn1ex", only: :dev},
       {:cowboy, "~> 2.5.0"},
       {:rocksdb, "~> 1.2.0"},
-      {:chat, "~> 3.7.2"},
+      {:chat, "~> 3.7.3"},
       {:n2o, "~> 6.7.3"},
       {:syn, "~> 1.6.3"},
       {:kvs, "~> 6.7.4"},
