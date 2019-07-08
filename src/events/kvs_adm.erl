@@ -17,9 +17,9 @@ event(_) -> [].
 ram({_,darwin}) ->
    Mem = os:cmd("top -l 1 -s 0 | grep PhysMem"),
    [_,L,C,R]=string:tokens(lists:filter(fun(X) -> lists:member(X,"0123456789MG ") end, Mem)," "),
-   lists:concat([nitro:meg(nitro:num(L)),"/",nitro:meg(nitro:num(L)+nitro:num(R)),""]);
+   lists:concat([nitro:meg(nitro:num(L)),"/",nitro:meg(nitro:num(L)+nitro:num(R))]);
 ram({_,linux}) ->
    [T,U,_,_,B,C] = lists:sublist(string:tokens(os:cmd("free")," \n"),8,6),
-   Mem = (nitro:to_integer(U)-(nitro:to_integer(B)+nitro:to_integer(C))) div 1000,
-   lists:concat([Mem,"/",nitro:to_integer(T) div 1000,"M"]);
+   Mem = (list_to_integer(U)- list_to_integer(B))+list_to_integer(C),
+   lists:concat([nitro:meg(Mem * 1000),"/",nitro:meg(list_to_integer(T)*1000)]);
 ram(OS) -> nitro:compact(OS).
