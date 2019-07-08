@@ -61,6 +61,6 @@ defmodule PLM.Products do
     NITRO.wire(['draw_chart(\'', code, '\',', x, ',', y, ',', z, ');'])
   end
 
-  def event({:invest, code}), do: NITRO.redirect("product.htm?p=" <> code)
+  def event({:invest, code}), do: NITRO.redirect("cashflow.htm?p=" <> code)
   def event(any), do: IO.inspect(any)
 end

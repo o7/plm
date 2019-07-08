@@ -19,7 +19,7 @@ defmodule PLM.Rows.Product do
       body: [
         panel(
           class: :column6,
-          body: link(href: "product.htm?p=" <> code, body: code)
+          body: link(href: "cashflow.htm?p=" <> code, body: code)
         ),
         panel(
           class: :column6,
