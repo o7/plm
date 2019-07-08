@@ -8,7 +8,7 @@ config :n2o,
   mqtt_services: ['erp', 'plm'],
   ws_services: ['chat'],
   upload: "./priv/static",
-  protocols: [:n2o_heart, CHAT.TXT, :n2o_nitro, :n2o_ftp, :bpe_n2o],
+  protocols: [:n2o_heart, :n2o_nitro, CHAT.TXT, :n2o_ftp, :bpe_n2o],
   routes: PLM.Routes
 
 config :kvs,
