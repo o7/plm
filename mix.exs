@@ -32,8 +32,10 @@ defmodule PLM.Mixfile do
   def deps() do
     [
       {:ex_doc, "~> 0.20.2", only: :dev},
+      {:asn1ex, github: "vicentfg/asn1ex", only: :dev},
       {:cowboy, "~> 2.5.0"},
       {:rocksdb, "~> 1.2.0"},
+      {:chat, "~> 3.7.1"},
       {:n2o, "~> 6.7.1"},
       {:syn, "~> 1.6.3"},
       {:kvs, "~> 6.7.4"},
