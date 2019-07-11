@@ -37,7 +37,7 @@ defmodule PLM.Rows.Product do
         ),
         panel(
           class: :column20,
-          body: :string.join(:lists.map(fn (ERP."Person"(cn: id, hours: h)) -> id ++  ' (' ++ :erlang.integer_to_list(h) ++')'
+          body: :string.join(:lists.map(fn (ERP."Person"(cn: id, hours: h)) -> id ++  '&nbsp;(' ++ :erlang.integer_to_list(h) ++')'
       end, :kvs.all '/plm/'++ :erlang.binary_to_list(code) ++ '/staff'), ',')
         ),
         panel(
