@@ -12,7 +12,7 @@ defmodule PLM.Product do
       body: [
         panel(class: :column33, body: "Investment"),
         panel(class: :column10, body: "Paid"),
-        panel(class: :column2, body: "From")
+        panel(class: :column2, body: "Name")
       ]
     )
   end
