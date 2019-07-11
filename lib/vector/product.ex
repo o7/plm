@@ -8,7 +8,7 @@ defmodule PLM.Rows.Product do
   def doc(),
     do: "PLM product."
 
-  def id(), do: ERP."Product"()
+  def id(), do: ERP."Product"(code: 'NYNJA')
   def mul({a,b},{c,d}), do: {a+c,b*d}
 
   def sum(feed) do
