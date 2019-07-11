@@ -2,6 +2,7 @@ defmodule PLM.Product do
   use N2O, with: [:n2o, :kvs, :nitro]
   use FORM, with: [:form]
   use BPE
+  require ERP
   require Logger
 
   def investmentsHeader() do
@@ -10,7 +11,7 @@ defmodule PLM.Product do
       class: :th,
       body: [
         panel(class: :column33, body: "Investment"),
-        panel(class: :column10, body: "Amount"),
+        panel(class: :column10, body: "Paid"),
         panel(class: :column2, body: "From")
       ]
     )
@@ -41,11 +42,15 @@ defmodule PLM.Product do
   end
 
   def pushInvestments(code) do
-    for i <- KVS.feed('/plm/' ++ code ++ '/investments') do
+    for i <- KVS.feed('/plm/' ++ code ++ '/staff') do
+      cn = ERP."Person"(i, :cn)
+      sum = :lists.foldl(fn(ERP."Payment"(volume: v, price: p), {_,acc}) ->
+        {x,y} = :dec.mul(v,p)
+        {x,acc + y} end, {0,0}, KVS.feed('/fin/iban/' ++ cn))
       NITRO.insert_bottom(
         :investmentsRow,
-        PLM.Rows.Investment.new(FORM.atom([:row, :investment, code]), i)
-      )
+        PLM.Rows.Investment.new(FORM.atom([:row, :investment, code]),
+            ERP."Payment"(price: {0,1}, volume: sum, from: cn) ))
     end
 
     code
