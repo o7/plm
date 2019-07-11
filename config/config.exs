@@ -11,6 +11,9 @@ config :n2o,
   protocols: [:n2o_heart, :n2o_nitro, CHAT.TXT, :n2o_ftp, :bpe_n2o],
   routes: PLM.Routes
 
+config :erp,
+  boot: [:erp_boot, :acc_boot, :pay_boot, :plm_boot, :fin_boot]
+
 config :kvs,
   dba: :kvs_rocks,
   dba_st: :kvs_st,
