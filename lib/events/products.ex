@@ -11,7 +11,7 @@ defmodule PLM.Products do
       class: :th,
       body: [
         panel(class: :column6, body: "Code"),
-        panel(class: :column10, body: "KPI"),
+        panel(class: :column10, body: "Structure"),
         panel(class: :column6, body: "People"),
         panel(class: :column20, body: "Income/Outcome"),
         panel(class: :column20, body: "Control")
@@ -61,6 +61,6 @@ defmodule PLM.Products do
     NITRO.wire(['draw_chart(\'', code, '\',', x, ',', y, ',', z, ');'])
   end
 
-  def event({:invest, code}), do: NITRO.redirect("cashflow.htm?p=" <> code)
+  def event({:invest, code}), do: NITRO.redirect('cashflow.htm?p=' ++ code)
   def event(any), do: IO.inspect(any)
 end

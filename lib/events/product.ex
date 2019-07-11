@@ -9,7 +9,7 @@ defmodule PLM.Product do
       id: :header,
       class: :th,
       body: [
-        panel(class: :column33, body: "Investmnent"),
+        panel(class: :column33, body: "Investment"),
         panel(class: :column10, body: "Amount"),
         panel(class: :column2, body: "From")
       ]

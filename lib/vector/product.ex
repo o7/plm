@@ -19,26 +19,36 @@ defmodule PLM.Rows.Product do
   end
 
   def new(name, prod) do
-    code = ERP."Product"(prod, :code) |> NITRO.to_binary()
-    income = (("/plm/" <> code <> "/income") |> :erlang.binary_to_list |> sum)
-    outcome = (("/plm/" <> code <> "/outcome") |> :erlang.binary_to_list |> sum)
+    code = ERP."Product"(prod, :code) 
+    income = ('/plm/' ++ code ++ '/income') |> sum
+    outcome = ('/plm/' ++ code ++ '/outcome') |> sum
+    feed = '/fin/acc/' ++ code
+    {:ok,ERP."Acc"(rate: {_,rnd})} = :kvs.get feed, code ++ '/R&D'
+    {:ok,ERP."Acc"(rate: {_,ins})} = :kvs.get feed, code ++ '/insurance'
+    {:ok,ERP."Acc"(rate: {_,opt})} = :kvs.get feed, code ++ '/options'
+    {:ok,ERP."Acc"(rate: {_,rsv})} = :kvs.get feed, code ++ '/reserved'
     panel(
       id: FORM.atom([:tr, name]),
       class: :td,
       body: [
         panel(
           class: :column6,
-          body: link(href: "cashflow.htm?p=" <> code, body: code)
+          body: link(href: 'cashflow.htm?p=' ++ code, body: code)
         ),
         panel(
           class: :column6,
           body: "Total Income: " <> NITRO.to_binary(income) <> "<br>" <>
-                "Gross Profit: " <> NITRO.to_binary(income-outcome) <> "<br>"
+                "Gross Profit: " <> NITRO.to_binary(income-outcome) <> "<br>" <>
+                "R&D: " <> NITRO.to_binary(rnd) <> "<br>" <>
+                "options: " <> NITRO.to_binary(opt) <> "<br>" <>
+                "reserved: " <> NITRO.to_binary(rsv) <> "<br>" <>
+                "credited: " <> NITRO.to_binary(ins) <> "<br>"
         ),
         panel(
           class: :column20,
-          body: :string.join(:lists.map(fn (ERP."Person"(cn: id, hours: h)) -> id ++  '&nbsp;(' ++ :erlang.integer_to_list(h) ++')'
-      end, :kvs.all '/plm/'++ :erlang.binary_to_list(code) ++ '/staff'), ',')
+          body: :string.join(:lists.map(fn (ERP."Person"(cn: id, hours: h)) ->
+          id ++  '&nbsp;(' ++ :erlang.integer_to_list(h) ++')'
+      end, :kvs.all '/plm/'++ code ++ '/staff'), ',')
         ),
         panel(
           class: :column30,

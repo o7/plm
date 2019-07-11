@@ -11,16 +11,16 @@ defmodule PLM.Rows.Investment do
       "This is the actor trace row (step) representation. " <>
         "Used to draw trace of the processes"
 
-  def id(), do: ERP."Investment"()
+  def id(), do: ERP."Payment"()
 
-  def new(name, ERP."Investment"(id: id, price: {_, price}, volume: {_, volume}, from: tic)) do
+  def new(name, ERP."Payment"(invoice: id, price: {_, price}, volume: {_, volume}, from: tic)) do
     panel(
       id: FORM.atom([:tr, NITRO.to_list(name)]),
       class: :td,
       body: [
         panel(
           class: :column33,
-          body: id
+          body: "option"
         ),
         panel(
           class: :column10,
