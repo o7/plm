@@ -39,10 +39,10 @@ defmodule PLM.Rows.Product do
           class: :column6,
           body: "Total Income: " <> NITRO.to_binary(income) <> "<br>" <>
                 "Gross Profit: " <> NITRO.to_binary(income-outcome) <> "<br>" <>
-                "R&D: " <> NITRO.to_binary(rnd) <> "<br>" <>
-                "options: " <> NITRO.to_binary(opt) <> "<br>" <>
-                "reserved: " <> NITRO.to_binary(rsv) <> "<br>" <>
-                "credited: " <> NITRO.to_binary(ins) <> "<br>"
+                "R&D: " <> NITRO.to_binary(rnd) <> "%<br>" <>
+                "options: " <> NITRO.to_binary(opt) <> "%<br>" <>
+                "reserved: " <> NITRO.to_binary(rsv) <> "%<br>" <>
+                "credited: " <> NITRO.to_binary(ins) <> "%<br>"
         ),
         panel(
           class: :column20,
