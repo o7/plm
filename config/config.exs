@@ -20,4 +20,12 @@ config :kvs,
   schema: [:kvs, :kvs_stream, :bpe_metainfo]
 
 config :form,
-  registry: [PLM.Rows.Trace, PLM.Rows.Process, PLM.Rows.Product, PLM.Forms.Act, PLM.Forms.Pass]
+  registry: [
+    PLM.Rows.Trace,
+    PLM.Rows.Process,
+    PLM.Rows.Payment,
+    PLM.Rows.Investment,
+    PLM.Rows.Product,
+    PLM.Forms.Act,
+    PLM.Forms.Pass
+  ]

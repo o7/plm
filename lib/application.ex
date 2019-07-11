@@ -3,7 +3,7 @@ defmodule PLM.Application do
 
   def start(_, _) do
     :cowboy.start_tls(:http, :n2o_cowboy.env(:plm), %{env: %{dispatch: :n2o_cowboy2.points()}})
-    :n2o.start_ws
+    :n2o.start_ws()
     Supervisor.start_link([], strategy: :one_for_one, name: PLM.Supervisor)
   end
 end

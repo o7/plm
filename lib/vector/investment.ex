@@ -11,7 +11,7 @@ defmodule PLM.Rows.Investment do
       "This is the actor trace row (step) representation. " <>
         "Used to draw trace of the processes"
 
-  def id(), do: ERP."Payment"()
+  def id(), do: ERP."Payment"(volume: {0,1})
 
   def new(name, ERP."Payment"(invoice: id, price: {_, price}, volume: {_, volume}, from: tic)) do
     panel(
