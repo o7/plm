@@ -13,7 +13,8 @@ defmodule PLM.Rows.Investment do
 
   def id(), do: ERP."Payment"(volume: {0,1})
 
-  def new(name, ERP."Payment"(invoice: id, price: {_, price}, volume: {_, volume}, from: tic)) do
+  def new(name, ERP."Payment"(invoice: id, price: p, volume: v, from: tic)) do
+    {s,m} = :dec.mul(p,v)
     panel(
       id: FORM.atom([:tr, NITRO.to_list(name)]),
       class: :td,
@@ -24,7 +25,7 @@ defmodule PLM.Rows.Investment do
         ),
         panel(
           class: :column10,
-          body: :erlang.integer_to_list(price * volume)
+          body: :erlang.float_to_list(m*:math.pow(10,-s),[{:decimals, s}])
         ),
         panel(
           class: :column2,
