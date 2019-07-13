@@ -1,13 +1,17 @@
 defmodule PLM.Forms.Pass do
   use N2O, with: [:n2o, :nitro]
   use FORM, with: [:form]
+  require ERP
   require Logger
   require Record
 
-  Record.defrecord(:phone, code: "+380676631870", number: "0000")
+  Record.defrecord(:credentials, code: "0000")
+
+  def parse(ERP."Employee"(person: ERP."Person"(cn: cn))), do: cn
+  def parse(_), do: []
 
   def doc(), do: "One-time password PIN."
-  def id(), do: phone()
+  def id(), do: credentials(code:  PLM.Forms.Pass.parse(N2O.user))
 
   def new(name, _phone) do
     document(
@@ -45,7 +49,6 @@ defmodule PLM.Forms.Pass do
           type: :select,
           title: "Company:",
           tooltips: [],
-          pos: 1,
           options: [
             opt(
               name: 'quanterall',
@@ -58,7 +61,6 @@ defmodule PLM.Forms.Pass do
           name: :branch,
           id: :branch,
           type: :select,
-          pos: 2,
           title: "Branch:",
           tooltips: [],
           options: [
@@ -72,7 +74,7 @@ defmodule PLM.Forms.Pass do
           ]
         ),
         field(
-          pos: 3,
+          pos: 2,
           id: :cn,
           name: :cn,
           type: :string,
@@ -81,7 +83,6 @@ defmodule PLM.Forms.Pass do
           fieldClass: :column3
         ),
         field(
-          pos: 4,
           id: :otp,
           name: :otp,
           type: :otp,
