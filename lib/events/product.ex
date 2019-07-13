@@ -156,5 +156,5 @@ defmodule PLM.Product do
   def event(:create_outcome), do: [NITRO.hide(:ctrl), NITRO.show(:frms)]
   def event({:Discard, []}), do: [NITRO.hide(:frms), NITRO.show(:ctrl)]
 
-  def event(any), do: IO.inspect(any)
+  def event(_), do: []
 end
