@@ -7,7 +7,7 @@ defmodule PLM.Forms do
 
     NITRO.insert_bottom(
       :stand,
-      h5(body: mod.doc(), style: "margin-bottom: 10px;")
+      p(body: mod.doc())
     )
 
     NITRO.insert_bottom(

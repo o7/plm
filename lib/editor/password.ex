@@ -26,7 +26,7 @@ defmodule PLM.Forms.Pass do
           name: :sms,
           title: "SMS",
           class: :cancel,
-          sources: [:user, :otp],
+          sources: [:cn, :branch, :otp],
           postback: {:SMS, []}
         ),
         but(
@@ -34,27 +34,59 @@ defmodule PLM.Forms.Pass do
           name: :proceed,
           title: "Proceed",
           class: [:button, :sgreen],
-          sources: [:user, :otp],
-          postback: {:Next, FORM.atom([:otp, :otp, name])}
+          sources: [:company, :otp, :cn, :branch],
+          postback: {:Next, name}
         )
       ],
       fields: [
         field(
-          id: :user,
-          name: :user,
-          type: :string,
-          title: "Login:",
-          labelClass: :label,
+          name: :company,
+          id: :company,
+          type: :select,
+          title: "Company:",
+          tooltips: [],
+          pos: 1,
+          options: [
+            opt(
+              name: 'quanterall',
+              checked: true,
+              title: "Quanterall"
+            )
+          ]
+        ),
+        field(
+          name: :branch,
+          id: :branch,
+          type: :select,
           pos: 2,
+          title: "Branch:",
+          tooltips: [],
+          options: [
+            opt(name: '/acc/quanterall/Plovdiv', title: "Plovdiv"),
+            opt(name: '/acc/quanterall/Sophia', title: "Sophia"),
+            opt(
+              name: '/acc/quanterall/Varna',
+              checked: true,
+              title: "Varna (HQ)"
+            )
+          ]
+        ),
+        field(
+          pos: 3,
+          id: :cn,
+          name: :cn,
+          type: :string,
+          title: "Common Name:",
+          labelClass: :label,
           fieldClass: :column3
         ),
         field(
+          pos: 4,
           id: :otp,
           name: :otp,
           type: :otp,
-          title: "Pass:",
+          title: "Passphrase:",
           labelClass: :label,
-          pos: 3,
           fieldClass: :column3
         )
       ]
