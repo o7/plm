@@ -27,5 +27,7 @@ config :form,
     PLM.Rows.Investment,
     PLM.Rows.Product,
     PLM.Forms.Act,
-    PLM.Forms.Pass
+    PLM.Forms.Pass,
+    PLM.Forms.Access,
+    PLM.Forms.Error
   ]

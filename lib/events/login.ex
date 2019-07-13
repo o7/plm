@@ -23,8 +23,7 @@ defmodule PLM.Login do
       {:error, _} ->
         PLM.box(
           PLM.Forms.Error,
-          {:error, 1, "The user cannot be found in this branch.",
-           "The list of users can be found in <a href=\"kvs.htm\">KVS</a> page."}
+          {:error, 1, "The user cannot be found in this branch.", [] }
         )
     end
   end
