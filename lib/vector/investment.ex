@@ -15,9 +15,11 @@ defmodule PLM.Rows.Investment do
 
   def new(name, ERP."Payment"(invoice: id, price: p, volume: v, from: tic, type: cur)) do
     {s, m} = :dec.mul(p, v)
-    x = case cur do
-      fiat -> 2
-      crypto -> s
+
+    x =
+      case cur do
+        fiat -> 2
+        crypto -> s
       end
 
     panel(

@@ -5,7 +5,7 @@ defmodule PLM.Forms.Access do
   require Record
 
   def doc(), do: "Access."
-  def id(), do: {:access, N2O.user |> :kvs_adm.parse, "to all services."}
+  def id(), do: {:access, N2O.user() |> :kvs_adm.parse(), "to all services."}
 
   def new(name, {:access, user, msg}) do
     document(

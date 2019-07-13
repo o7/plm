@@ -141,9 +141,7 @@ defmodule PLM.Product do
 
     case KVS.get(:writer, '/plm/' ++ code ++ '/income') do
       {:error, _} ->
-        NITRO.update(:n, "ERR")
-        NITRO.update(:desc, "No product found.")
-        NITRO.update(:num, "ERR")
+        PLM.box(PLM.Forms.Error, {:error, 1, "No product found.", []})
 
       _ ->
         NITRO.update(:n, code)

@@ -40,13 +40,13 @@ defmodule PLM.Actors do
 
     NITRO.hide(:frms)
 
-        for process(id: i) <-
-              Enum.filter(
-                KVS.feed('/bpe/proc'),
-                fn process(name: n) -> n == :n2o.user() end
-              ) do
-          NITRO.insert_bottom(:tableRow, PLM.Rows.Process.new(FORM.atom([:row, i]), BPE.load(i)))
-        end
+    for process(id: i) <-
+          Enum.filter(
+            KVS.feed('/bpe/proc'),
+            fn process(name: n) -> n == :n2o.user() end
+          ) do
+      NITRO.insert_bottom(:tableRow, PLM.Rows.Process.new(FORM.atom([:row, i]), BPE.load(i)))
+    end
   end
 
   def event({:complete, id}) do

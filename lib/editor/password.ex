@@ -11,7 +11,7 @@ defmodule PLM.Forms.Pass do
   def parse(_), do: []
 
   def doc(), do: "One-time password PIN."
-  def id(), do: credentials(code:  PLM.Forms.Pass.parse(N2O.user))
+  def id(), do: credentials(code: PLM.Forms.Pass.parse(N2O.user()))
 
   def new(name, _phone) do
     document(
