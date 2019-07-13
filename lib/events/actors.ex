@@ -40,15 +40,13 @@ defmodule PLM.Actors do
 
     NITRO.hide(:frms)
 
-    for i <- KVS.feed('/bpe/proc') do
-      NITRO.insert_bottom(
-        :tableRow,
-        PLM.Rows.Process.new(
-          FORM.atom([:row, process(i, :id)]),
-          BPE.load(process(i, :id))
-        )
-      )
-    end
+        for process(id: i) <-
+              Enum.filter(
+                KVS.feed('/bpe/proc'),
+                fn process(name: n) -> n == :n2o.user() end
+              ) do
+          NITRO.insert_bottom(:tableRow, PLM.Rows.Process.new(FORM.atom([:row, i]), BPE.load(i)))
+        end
   end
 
   def event({:complete, id}) do
@@ -81,19 +79,6 @@ defmodule PLM.Actors do
   end
 
   def event({:Discard, []}), do: [NITRO.hide(:frms), NITRO.show(:ctrl)]
-
-  def event({event, name}) do
-    NITRO.wire(
-      :lists.concat([
-        "console.log(\"",
-        :io_lib.format("~p", [{event, name}]),
-        "\");"
-      ])
-    )
-
-    IO.inspect({event, name})
-  end
-
   def event(:create), do: [NITRO.hide(:ctrl), NITRO.show(:frms)]
-  def event(any), do: IO.inspect(any)
+  def event(_), do: []
 end

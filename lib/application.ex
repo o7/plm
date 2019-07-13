@@ -1,3 +1,21 @@
+defmodule PLM do
+  use N2O, with: [:nitro]
+  use FORM
+  def extract(name, path, form), do: [name, path, form] |> FORM.atom() |> NITRO.q() |> NITRO.to_list()
+  def auth(cn, branch) do
+    case :kvs.get(:PersonCN, cn) do
+      {:ok, {:PersonCN, _, acc}} ->
+        case :kvs.get(branch, acc) do
+          {:ok, p} -> {:ok, p}
+          x -> x
+        end
+
+      x ->
+        x
+    end
+  end
+end
+
 defmodule PLM.Application do
   use Application
 

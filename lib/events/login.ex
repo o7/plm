@@ -5,7 +5,6 @@ defmodule PLM.Login do
   require Logger
 
   def api_event(_, _, _), do: IO.inspect("API EVENT~n")
-  def extract(name, path, form), do: [name, path, form] |> FORM.atom() |> NITRO.q() |> NITRO.to_list()
   def event({:SMS, _}), do: NITRO.wire("document.getCookies('sample string');")
   def event({:Close, _}), do: NITRO.redirect("index.html")
 
@@ -16,31 +15,15 @@ defmodule PLM.Login do
   end
 
   def event({:Next, form}) do
-    cn = extract(:cn, :otp, form)
-    branch = extract(:branch, :otp, form)
-    mod = PLM.Forms.Error
+    cn = PLM.extract(:cn, :otp, form)
+    branch = PLM.extract(:branch, :otp, form)
 
-    res =
-      case :kvs.get(:PersonCN, cn) do
-        {:error, _} ->
-          :skip
-
-        {:ok, {:PersonCN, cn, acc}} ->
-          case :kvs.get(branch, acc) do
-            {:ok, ERP."Employee"(id: id)} ->
-              N2O.user(id)
-              :ok
-
-            {:error, _} ->
-              :skip
-          end
-      end
-
-    case res do
-      :ok ->
+    case PLM.auth(cn, branch) do
+      {:ok, p} ->
+        N2O.user(p)
         NITRO.redirect("plm.htm")
 
-      :skip ->
+      {:error, _} ->
         NITRO.clear(:stand)
         NITRO.clear(:stand)
         mod = PLM.Forms.Error
@@ -56,5 +39,5 @@ defmodule PLM.Login do
     NITRO.insert_bottom(:stand, FORM.new(mod.new(mod, rec), rec))
   end
 
-  def event(any), do: IO.inspect(any)
+  def event(_), do: []
 end

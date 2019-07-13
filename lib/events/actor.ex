@@ -15,33 +15,17 @@ defmodule PLM.Actor do
     )
   end
 
-  def event(:init) do
-    NITRO.clear(:tableHead)
-    NITRO.clear(:tableRow)
-    bin = NITRO.qc(:p)
+  def error() do
+    NITRO.update(:num, "ERR")
+    NITRO.update(:desc, "No process found.")
+  end
 
-    id =
-      try do
-        NITRO.to_list(bin)
-      catch
-        _, _ -> 0
-      end
+  def ok(id) do
+    NITRO.insert_top(:tableHead, PLM.Actor.header())
+    NITRO.update(:num, id)
+    NITRO.update(:n, id)
 
-    case KVS.get('/bpe/proc', id) do
-      {:error, _} ->
-        NITRO.update(:n, "ERR")
-        NITRO.update(:desc, "No process found.")
-        NITRO.update(:num, "ERR")
-
-      _ ->
-        NITRO.insert_top(:tableHead, PLM.Actor.header())
-        NITRO.update(:n, bin)
-        NITRO.update(:num, bin)
-    end
-
-    history = BPE.hist(id)
-
-    for i <- history,
+    for i <- BPE.hist(id),
         do:
           NITRO.insert_bottom(
             :tableRow,
@@ -49,5 +33,15 @@ defmodule PLM.Actor do
           )
   end
 
-  def event(any), do: IO.inspect(any)
+  def event(:init) do
+    NITRO.clear(:tableHead)
+    NITRO.clear(:tableRow)
+
+    case KVS.get('/bpe/proc', :p |> NITRO.qc() |> NITRO.to_list()) do
+      {:error, _} -> error()
+      {:ok, process(id: id)} -> ok(id)
+    end
+  end
+
+  def event(_), do: []
 end

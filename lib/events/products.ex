@@ -62,5 +62,5 @@ defmodule PLM.Products do
   end
 
   def event({:invest, code}), do: NITRO.redirect('cashflow.htm?p=' ++ code)
-  def event(any), do: IO.inspect(any)
+  def event(_), do: []
 end

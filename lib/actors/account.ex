@@ -2,14 +2,15 @@ defmodule PLM.Account do
   @moduledoc """
   `PLM.Account` is a process that handles user investments.
   """
-  use BPE, with: [:bpe]
+  use BPE, with: [:bpe, :nitro]
+  require ERP
   require Record
   Record.defrecord(:close_account, [])
   Record.defrecord(:tx, [])
 
   def def() do
     process(
-      name: "IBAN Account",
+      name: :n2o.user(),
       flows: [
         sequenceFlow(source: :Created, target: :Init),
         sequenceFlow(source: :Init, target: :Upload),

@@ -2,6 +2,7 @@ defmodule PLM.Rows.Process do
   use N2O, with: [:n2o, :nitro]
   use FORM, with: [:form]
   use BPE
+  require ERP
   require Logger
   require Record
 
@@ -27,7 +28,11 @@ defmodule PLM.Rows.Process do
               body: NITRO.to_binary(pid)
             )
         ),
-        panel(class: :column6, body: NITRO.to_list(process(proc, :name))),
+        panel(class: :column6, body:
+          case process(proc, :name) do
+               [] -> []
+               ERP."Employee"(person: ERP."Person"(cn: cn)) -> cn
+          end),
         panel(
           class: :column6,
           body: NITRO.to_list(task(BPE.step(process(proc, :task), proc), :module))

@@ -4,9 +4,12 @@
 -include_lib("erp/include/employee.hrl").
 -include_lib("kvs/include/cursors.hrl").
 
+parse(#'Employee'{person=#'Person'{cn = Name}}) -> Name;
+parse(_) -> [].
+
 event(init)      -> [ begin nitro:clear(X), self() ! {direct,X} end || X <- [user,writers,session,enode,disc,ram] ];
 event(ram)       -> nitro:update(ram,     #span{body = ram(os:type())});
-event(user)      -> nitro:update(user,    #span{body = n2o:user()});
+event(user)      -> nitro:update(user,    #span{body = parse(n2o:user())});
 event(session)   -> nitro:update(session, #span{body = n2o:sid()});
 event(enode)     -> nitro:update(enode,   #span{body = lists:concat([node()])});
 event(disc)      -> nitro:update(disc,    #span{body = hd(string:tokens(os:cmd("du -hs rocksdb"),"\t"))});
