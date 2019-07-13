@@ -12,7 +12,7 @@ config :n2o,
   routes: PLM.Routes
 
 config :erp,
-  boot: [:erp_boot, :acc_boot, :pay_boot, :plm_boot, :fin_boot]
+  boot: [:erp_boot, :plm_boot, :acc_boot, :pay_boot, :fin_boot]
 
 config :kvs,
   dba: :kvs_rocks,
