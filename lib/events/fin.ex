@@ -57,15 +57,15 @@ defmodule FIN.Index do
     end
   end
 
-  def event({:txs,id}) do
+  def event({:txs,_}) do
     NITRO.insert_top(:accountsHead, FIN.Index.accountsHeader())
     NITRO.insert_top(:txsHead, FIN.Index.txsHeader())
     NITRO.update(:num, span(body: :kvs_adm.parse(N2O.user)))
     NITRO.hide(:frms)
 
-    code = :p |> NITRO.qc() |> NITRO.to_list() |> pushAccounts |> pushTxs
+    :p |> NITRO.qc() |> NITRO.to_list() |> pushAccounts |> pushTxs
   end
 
-  def event({:GotIt,id}), do: NITRO.redirect("ldap.htm")
+  def event({:GotIt,_}), do: NITRO.redirect("ldap.htm")
   def event(_), do: []
 end

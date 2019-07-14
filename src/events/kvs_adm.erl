@@ -1,8 +1,8 @@
 -module(kvs_adm).
--compile(export_all).
 -include_lib("nitro/include/nitro.hrl").
 -include_lib("erp/include/employee.hrl").
 -include_lib("kvs/include/cursors.hrl").
+-export([parse/1,event/1,ram/1]).
 
 parse(#'Employee'{person=#'Person'{cn = Name}}) -> Name;
 parse(_) -> [].
@@ -21,7 +21,7 @@ event(_) -> [].
 
 ram({_,darwin}) ->
    Mem = os:cmd("top -l 1 -s 0 | grep PhysMem"),
-   [_,L,C,R]=string:tokens(lists:filter(fun(X) -> lists:member(X,"0123456789MG ") end, Mem)," "),
+   [_,L,_,R]=string:tokens(lists:filter(fun(X) -> lists:member(X,"0123456789MG ") end, Mem)," "),
    lists:concat([nitro:meg(nitro:num(L)),"/",nitro:meg(nitro:num(L)+nitro:num(R))]);
 ram({_,linux}) ->
    [T,U,_,_,B,C] = lists:sublist(string:tokens(os:cmd("free")," \n"),8,6),

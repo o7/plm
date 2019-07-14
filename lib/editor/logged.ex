@@ -7,7 +7,7 @@ defmodule PLM.Forms.Access do
   def doc(), do: "Access."
   def id(), do: {:access, N2O.user() |> :kvs_adm.parse(), "to all services."}
 
-  def new(name, {:access, user, msg}) do
+  def new(name, {:access, _user, msg}) do
     document(
       name: FORM.atom([:otp, name]),
       sections: [sec(name: "GRANTED: " <> msg)],

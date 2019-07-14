@@ -52,7 +52,7 @@ defmodule PLM.Product do
             {x, acc + y}
           end,
           {0, 0},
-          KVS.feed('/fin/iban/' ++ cn)
+          KVS.feed('/fin/tx/' ++ cn ++ '/local')
         )
 
       NITRO.insert_bottom(

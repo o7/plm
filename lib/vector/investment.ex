@@ -13,13 +13,14 @@ defmodule PLM.Rows.Investment do
 
   def id(), do: ERP."Payment"(volume: {0, 1})
 
-  def new(name, ERP."Payment"(invoice: id, price: p, volume: v, from: tic, type: cur)) do
+  def new(name, ERP."Payment"(price: p, volume: v, from: tic, type: cur)) do
     {s, m} = :dec.mul(p, v)
 
     x =
       case cur do
-        fiat -> 2
-        crypto -> s
+        :crypto -> s
+        :fiat -> 2
+        a -> 2
       end
 
     panel(

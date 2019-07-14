@@ -3,7 +3,7 @@
 -include_lib("bpe/include/doc.hrl").
 -record('Token', {data= [] :: binary()}).
 -record(io, {code= [] :: term(),data = [] :: [] | #'Token'{} | #process{} | #io{} | term() }).
--compile(export_all).
+-export([info/3]).
 
 info(#'Amen'{id=Proc,docs=Docs},R,S) -> {reply,{bert,#io{data=bpe:amend(Proc,Docs)}},R,S};
 info(#'Hist'{id=Proc},R,S)           -> {reply,{bert,#io{data=bpe:hist(Proc)}},      R,S};
