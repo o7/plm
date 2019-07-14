@@ -8,7 +8,7 @@ config :n2o,
   mqtt_services: ['erp', 'plm'],
   ws_services: ['chat'],
   upload: "./priv/static",
-  protocols: [:n2o_heart, :n2o_nitro, CHAT.TXT, :n2o_ftp, :bpe_n2o],
+  protocols: [:n2o_heart, :n2o_nitro, CHAT.TXT, :n2o_ftp],
   routes: PLM.Routes
 
 config :erp,
@@ -21,13 +21,13 @@ config :kvs,
 
 config :form,
   registry: [
-    PLM.Rows.Trace,
-    PLM.Rows.Process,
+    LDAP.Forms.Credentials,
+    LDAP.Forms.Access,
+    BPE.Forms.Create,
+    BPE.Rows.Trace,
+    BPE.Rows.Process,
+    PLM.Forms.Error,
     PLM.Rows.Payment,
     PLM.Rows.Investment,
-    PLM.Rows.Product,
-    PLM.Forms.Act,
-    PLM.Forms.Pass,
-    PLM.Forms.Access,
-    PLM.Forms.Error
+    PLM.Rows.Product
   ]

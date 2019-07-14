@@ -1,10 +1,10 @@
-defmodule PLM.Actors do
+defmodule BPE.Index do
   require Logger
   use N2O, with: [:n2o, :kvs, :nitro]
   use FORM
-  use BPE
-
-  def header() do
+  require BPE
+  require KVS
+  def index_header() do
     panel(
       id: :header,
       class: :th,
@@ -22,10 +22,10 @@ defmodule PLM.Actors do
   def event(:init) do
     NITRO.clear(:tableRow)
     NITRO.clear(:tableHead)
-    NITRO.insert_top(:tableHead, PLM.Actors.header())
+    NITRO.insert_top(:tableHead, index_header())
     NITRO.clear(:frms)
     NITRO.clear(:ctrl)
-    mod = PLM.Forms.Act
+    mod = BPE.Forms.Create
     NITRO.insert_bottom(:frms, FORM.new(mod.new(mod, mod.id()), mod.id()))
 
     NITRO.insert_bottom(
@@ -40,38 +40,38 @@ defmodule PLM.Actors do
 
     NITRO.hide(:frms)
 
-    for process(id: i) <-
+    for BPE.process(id: i) <-
           Enum.filter(
             KVS.feed('/bpe/proc'),
-            fn process(name: n) -> n == :n2o.user() end
+            fn BPE.process(name: n) -> n == :n2o.user() end
           ) do
-      NITRO.insert_bottom(:tableRow, PLM.Rows.Process.new(FORM.atom([:row, i]), BPE.load(i)))
+      NITRO.insert_bottom(:tableRow, BPE.Rows.Process.new(FORM.atom([:row, i]), :bpe.load(i)))
     end
   end
 
   def event({:complete, id}) do
     p = :bpe.load(id)
-    BPE.start(p, [])
-    BPE.complete(id)
+    :bpe.start(p, [])
+    :bpe.complete(id)
 
     NITRO.update(
       FORM.atom([:tr, :row, id]),
-      PLM.Rows.Process.new(FORM.atom([:row, id]), BPE.proc(id))
+      BPE.Rows.Process.new(FORM.atom([:row, id]), :bpe.proc(id))
     )
   end
 
   def event({:Spawn, _}) do
-    atom = 'process_type_pi_Elixir.PLM.Forms.Act' |> NITRO.q() |> NITRO.to_atom()
+    atom = 'process_type_pi_Elixir.BPE.Forms.Create' |> NITRO.q() |> NITRO.to_atom()
 
     id =
-      case BPE.start(atom.def(), []) do
+      case :bpe.start(atom.def(), []) do
         {:error, i} -> i
         {:ok, i} -> i
       end
 
     NITRO.insert_after(
       :header,
-      PLM.Rows.Process.new(FORM.atom([:row, id]), BPE.proc(id))
+      BPE.Rows.Process.new(FORM.atom([:row, id]), :bpe.proc(id))
     )
 
     NITRO.hide(:frms)

@@ -1,4 +1,4 @@
-defmodule PLM.Products do
+defmodule PLM.Index do
   require Logger
   use N2O, with: [:n2o, :kvs, :nitro]
   use FORM
@@ -45,7 +45,7 @@ defmodule PLM.Products do
   def event(:init) do
     NITRO.clear(:tableRow)
     NITRO.clear(:tableHead)
-    NITRO.insert_top(:tableHead, PLM.Products.header())
+    NITRO.insert_top(:tableHead, PLM.Index.header())
 
     for i <- KVS.feed('/plm/products') do
       code = ERP."Product"(i, :code)

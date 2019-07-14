@@ -1,7 +1,7 @@
-defmodule PLM.Actor do
+defmodule BPE.Actor do
   use N2O, with: [:n2o, :kvs, :nitro]
   use FORM, with: [:form]
-  use BPE
+  require BPE
   require Logger
 
   def header() do
@@ -16,12 +16,12 @@ defmodule PLM.Actor do
   end
 
   def ok(id) do
-    NITRO.insert_top(:tableHead, PLM.Actor.header())
+    NITRO.insert_top(:tableHead, BPE.Actor.header())
 
-    for i <- BPE.hist(id) do
+    for i <- :bpe.hist(id) do
       NITRO.insert_bottom(
         :tableRow,
-        PLM.Rows.Trace.new(FORM.atom([:trace, NITRO.to_list(hist(i, :id))]), i)
+        BPE.Rows.Trace.new(FORM.atom([:trace, NITRO.to_list(BPE.hist(i, :id))]), i)
       )
     end
   end
@@ -51,7 +51,7 @@ defmodule PLM.Actor do
 
     case KVS.get('/bpe/proc', id) do
       {:error, _} -> PLM.box(PLM.Forms.Error, {:error, 2, "No process found.", []})
-      {:ok, process(id: id)} -> ok(id)
+      {:ok, BPE.process(id: id)} -> ok(id)
     end
   end
 

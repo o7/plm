@@ -1,7 +1,7 @@
-defmodule PLM.Forms.Act do
-  use N2O, with: [:n2o, :kvs, :nitro]
+defmodule BPE.Forms.Create do
+  use N2O, with: [:n2o, :nitro]
   use FORM, with: [:form]
-  use BPE
+  use KVS
   require Logger
 
   def doc(), do: "Dialog for creation of BPE processes."
@@ -34,10 +34,10 @@ defmodule PLM.Forms.Act do
           title: "Type",
           tooltips: [],
           options: [
-            opt(name: PLM.Account, title: "Client Acquire [QUANTERALL]"),
-            opt(name: PLM.Account, title: "Client Tracking [QUANTERALL]"),
+            opt(name: BPE.Account, title: "Client Acquire [QUANTERALL]"),
+            opt(name: BPE.Account, title: "Client Tracking [QUANTERALL]"),
             opt(
-              name: PLM.Account,
+              name: BPE.Account,
               checked: true,
               title: "Client Account [SYNRC BANK]"
             )

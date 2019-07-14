@@ -1,4 +1,4 @@
-defmodule PLM.Forms do
+defmodule FORM.Index do
   use N2O, with: [:n2o, :nitro, :form]
   require Logger
 
@@ -34,5 +34,5 @@ defmodule PLM.Forms do
     )
   end
 
-  def event(any), do: IO.inspect(any)
+  def event(_), do: []
 end

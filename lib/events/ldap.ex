@@ -1,4 +1,4 @@
-defmodule PLM.Login do
+defmodule LDAP.Index do
   use N2O, with: [:n2o, :nitro]
   use FORM
   require ERP
@@ -23,14 +23,14 @@ defmodule PLM.Login do
       {:error, _} ->
         PLM.box(
           PLM.Forms.Error,
-          {:error, 1, "The user cannot be found in this branch.", [] }
+          {:error, 1, "The user cannot be found in this branch.", []}
         )
     end
   end
 
   def event({:Close, _}), do: NITRO.redirect("index.html")
   def event({:revoke, x}), do: [N2O.user([]), event({:GotIt, x})]
-  def event(:access), do: PLM.box(PLM.Forms.Access, [])
-  def event({:GotIt, _}), do: PLM.box(PLM.Forms.Pass, [])
+  def event(:access), do: PLM.box(LDAP.Forms.Access, [])
+  def event({:GotIt, _}), do: PLM.box(LDAP.Forms.Credentials, [])
   def event(_), do: []
 end

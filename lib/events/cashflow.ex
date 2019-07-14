@@ -1,7 +1,7 @@
-defmodule PLM.Product do
+defmodule PLM.CashFlow do
   use N2O, with: [:n2o, :kvs, :nitro]
   use FORM, with: [:form]
-  use BPE
+  require BPE
   require ERP
   require Logger
 
@@ -96,13 +96,13 @@ defmodule PLM.Product do
     NITRO.clear(:incomeRow)
     NITRO.clear(:outcomeHead)
     NITRO.clear(:outcomeRow)
-    NITRO.insert_top(:investmentsHead, PLM.Product.investmentsHeader())
-    NITRO.insert_top(:outcomeHead, PLM.Product.outcomeHeader())
-    NITRO.insert_top(:incomeHead, PLM.Product.incomeHeader())
+    NITRO.insert_top(:investmentsHead, PLM.CashFlow.investmentsHeader())
+    NITRO.insert_top(:outcomeHead, PLM.CashFlow.outcomeHeader())
+    NITRO.insert_top(:incomeHead, PLM.CashFlow.incomeHeader())
     NITRO.clear(:frms)
     NITRO.clear(:ctrl)
 
-    mod = PLM.Forms.Act
+    mod = BPE.Forms.Create
     NITRO.insert_bottom(:frms, FORM.new(mod.new(mod, mod.id()), mod.id()))
 
     NITRO.insert_bottom(

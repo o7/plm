@@ -1,11 +1,11 @@
-defmodule PLM.Forms.Access do
+defmodule LDAP.Forms.Access do
   use N2O, with: [:n2o, :nitro]
   use FORM, with: [:form]
   require Logger
   require Record
 
   def doc(), do: "Access."
-  def id(), do: {:access, N2O.user() |> :kvs_adm.parse(), "to all services."}
+  def id(), do: {:access, N2O.user() |> KVS.Index.parse(), "to all services."}
 
   def new(name, {:access, _user, msg}) do
     document(

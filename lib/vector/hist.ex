@@ -1,4 +1,4 @@
-defmodule PLM.Rows.Trace do
+defmodule BPE.Rows.Trace do
   use N2O, with: [:n2o, :kvs, :nitro]
   use FORM, with: [:form]
   use BPE

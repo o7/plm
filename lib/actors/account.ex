@@ -1,4 +1,4 @@
-defmodule PLM.Account do
+defmodule BPE.Account do
   @moduledoc """
   `PLM.Account` is a process that handles user investments.
   """

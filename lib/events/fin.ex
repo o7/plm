@@ -1,7 +1,8 @@
 defmodule FIN.Index do
-  use N2O, with: [:n2o, :kvs, :nitro]
+  use N2O, with: [:n2o, :nitro]
   use FORM, with: [:form]
   use BPE
+  require KVS
   require ERP
   require Logger
 
@@ -44,9 +45,11 @@ defmodule FIN.Index do
     NITRO.clear(:accountsRow)
     NITRO.clear(:txsHead)
     NITRO.clear(:txsRow)
+
     case N2O.user() do
       [] ->
         NITRO.hide(:head)
+
         PLM.box(
           PLM.Forms.Error,
           {:error, 1, "Not authenticated", "User must be authenticated in order to view account and transactions"}
@@ -57,15 +60,15 @@ defmodule FIN.Index do
     end
   end
 
-  def event({:txs,_}) do
+  def event({:txs, _}) do
     NITRO.insert_top(:accountsHead, FIN.Index.accountsHeader())
     NITRO.insert_top(:txsHead, FIN.Index.txsHeader())
-    NITRO.update(:num, span(body: :kvs_adm.parse(N2O.user)))
+    NITRO.update(:num, span(body: KVS.Index.parse(N2O.user())))
     NITRO.hide(:frms)
 
     :p |> NITRO.qc() |> NITRO.to_list() |> pushAccounts |> pushTxs
   end
 
-  def event({:GotIt,_}), do: NITRO.redirect("ldap.htm")
+  def event({:GotIt, _}), do: NITRO.redirect("ldap.htm")
   def event(_), do: []
 end
