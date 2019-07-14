@@ -28,7 +28,7 @@ defmodule PLM.Rows.Payment do
         ),
         panel(
           class: :column10,
-          body: "NYNJA"
+          body: tic
         )
       ]
     )
