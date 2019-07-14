@@ -13,6 +13,7 @@ defmodule PLM.Routes do
   defp route_prefix(path), do: route(path)
 
   def route(<<"bpe", _::binary>>), do: PLM.Actors
+  def route(<<"fin", _::binary>>), do: FIN.Index
   def route(<<"access", _::binary>>), do: PLM.Login
   def route(<<"form", _::binary>>), do: PLM.Forms
   def route(<<"act", _::binary>>), do: PLM.Actor
@@ -22,6 +23,7 @@ defmodule PLM.Routes do
   def route(<<"app/access", _::binary>>), do: PLM.Login
   def route(<<"app/form", _::binary>>), do: PLM.Forms
   def route(<<"app/act", _::binary>>), do: PLM.Actor
+  def route(<<"app/fin", _::binary>>), do: FIN.Index
   def route(<<"app/bpe", _::binary>>), do: PLM.Actors
   def route(<<"app/kvs", _::binary>>), do: :kvs_adm
   def route(<<"app/plm", _::binary>>), do: PLM.Products

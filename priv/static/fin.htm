@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="author" content="Maxim Sokhatsky" />
-    <title>PRODUCT</title>
-    <link rel="stylesheet" href="css/blank.css?v=1" />
-    <link rel="stylesheet" href="css/adm.css" />
+    <title>FIN</title>
+    <link rel="stylesheet" href="css/blank.css" />
     <link rel="stylesheet" href="css/forms.css" />
 </head>
 
@@ -16,9 +15,8 @@
 
 <nav>
     <a href='access.htm'>ACCESS</a>
-    <a href='fin.htm'>FIN</a>
+    <a href='fin.htm' style="background:#ededed;">FIN</a>
     <a href='plm.htm'>PLM</a>
-    <a href='product.htm' style="background:#ededed;"><span id=n>1</span></a>
     <a href='bpe.htm'>BPE</a>
     <a href='form.htm'>FORM</a>
     <a href='kvs.htm'>KVS</a>
@@ -27,11 +25,14 @@
 <aside>
    <article>
         <section>
-            <h2>CashFlow <span id=num>1</span></h2>
-            <p id=desc>The product dashboard allows you to see.</p>
+            <h2>FIN <span id=num></span></h2>
+            <p id=desc>The financial management module allows you to
+               track your local enterprise accounts and its transcations.</p>
             <br>
             <div id="ctrl"> </div>
             <div id="frms"></div>
+            <div id=stand class="box">
+            </div>
             </section>
    </article>
 
@@ -40,11 +41,10 @@
 <main>
    <section>
             <table class="table" align=center>
-                 <thead>
+                 <thead id=head>
                     <tr class=trGroup>
-                      <td width=33%><h3>Investors</h3></td>
-                      <td width=33%><h3>Income</h3></td>
-                      <td width=33%><h3>Outcome</h3></td>
+                      <td width=33%><h3>Accounts</h3></td>
+                      <td width=66%><h3>Transactions</h3></td>
                     </tr>
                  </thead>
                  <br>
@@ -53,22 +53,15 @@
                  <td>
                       <div class=td>
                            <div class="table">
-                                <div id="investmentsHead" class="trGroup"></div>
-                                <div id="investmentsRow" class="trGroup"></div>
+                                <div id="accountsHead" class="trGroup"></div>
+                                <div id="accountsRow" class="trGroup"></div>
                            </div>
                       </div>
                  </td><td>
                       <div class=td>
                            <div class="table">
-                                <div id="incomeHead" class="trGroup"></div>
-                                <div id="incomeRow" class="trGroup"></div>
-                           </div>
-                      </div>
-                 </td><td>
-                      <div class=td>
-                           <div class="table">
-                                <div id="outcomeHead" class="trGroup"></div>
-                                <div id="outcomeRow" class="trGroup"></div>
+                                <div id="txsHead" class="trGroup"></div>
+                                <div id="txsRow" class="trGroup"></div>
                            </div>
                       </div>
                  </td></tr>
