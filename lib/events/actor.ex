@@ -37,7 +37,7 @@ defmodule PLM.Actor do
           PLM.Forms.Error,
           {:error, 1, "Not authenticated",
            "User must be authenticated in order to view the process trace.<br>" <>
-             "You can do that at <a href=\"access.htm\">ACCESS</a> page."}
+             "You can do that at <a href=\"ldap.htm\">LDAP</a> page."}
         )
 
       _ ->
