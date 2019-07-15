@@ -18,7 +18,7 @@ defmodule LDAP.Index do
     case PLM.auth(cn, branch) do
       {:ok, p} ->
         N2O.user(p)
-        NITRO.redirect("plm.htm")
+        NITRO.redirect("fin.htm")
 
       {:error, _} ->
         PLM.box(
