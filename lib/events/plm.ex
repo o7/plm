@@ -19,10 +19,10 @@ defmodule PLM.Index do
     )
   end
 
-  def series6(income),
+  def series(income),
     do: '[' ++ :string.join(income ++ :lists.duplicate(6 - length(income), '0'), ',') ++ ']'
 
-  def payments6(feed) do
+  def payments(feed) do
     :lists.map(
       fn ERP."Payment"(price: {_, a2}, volume: {_, b2}) ->
         :erlang.integer_to_list(a2 * b2)
@@ -49,10 +49,10 @@ defmodule PLM.Index do
 
     for i <- KVS.feed('/plm/products') do
       code = ERP."Product"(i, :code)
-      {_, scale6} = months()
-      income = payments6('/plm/' ++ code ++ '/income')
-      outcome = payments6('/plm/' ++ code ++ '/outcome')
-      send(self(), {:direct, {:chart, code, scale6, series6(income), series6(outcome), i}})
+      {_, scale} = months()
+      income = payments('/plm/' ++ code ++ '/income')
+      outcome = payments('/plm/' ++ code ++ '/outcome')
+      send(self(), {:direct, {:chart, code, scale, series(income), series(outcome), i}})
     end
   end
 
