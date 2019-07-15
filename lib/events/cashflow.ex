@@ -152,7 +152,7 @@ defmodule PLM.CashFlow do
   def event(:create_investment), do: [NITRO.hide(:ctrl), NITRO.show(:frms)]
   def event(:create_income), do: [NITRO.hide(:ctrl), NITRO.show(:frms)]
   def event(:create_outcome), do: [NITRO.hide(:ctrl), NITRO.show(:frms)]
-  def event({:Discard, []}), do: [NITRO.hide(:frms), NITRO.show(:ctrl)]
+  def event({:discard, []}), do: [NITRO.hide(:frms), NITRO.show(:ctrl)]
 
   def event(_), do: []
 end

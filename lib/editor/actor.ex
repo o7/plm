@@ -16,14 +16,14 @@ defmodule BPE.Forms.Create do
           id: FORM.atom([:pi, :decline]),
           title: "Discard",
           class: :cancel,
-          postback: {:Discard, []}
+          postback: {:discard, []}
         ),
         but(
           id: FORM.atom([:pi, :proceed]),
           title: "Create",
           class: [:button, :sgreen],
           sources: [:process_type],
-          postback: {:Spawn, []}
+          postback: {:spawn, []}
         )
       ],
       fields: [

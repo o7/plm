@@ -69,6 +69,6 @@ defmodule FIN.Index do
     :p |> NITRO.qc() |> NITRO.to_list() |> pushAccounts |> pushTxs
   end
 
-  def event({:GotIt, _}), do: NITRO.redirect("ldap.htm")
+  def event({:off, _}), do: NITRO.redirect("ldap.htm")
   def event(_), do: []
 end

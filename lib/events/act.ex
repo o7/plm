@@ -55,6 +55,6 @@ defmodule BPE.Actor do
     end
   end
 
-  def event({:GotIt, _}), do: NITRO.redirect("bpe.htm")
+  def event({:off, _}), do: NITRO.redirect("bpe.htm")
   def event(_), do: []
 end

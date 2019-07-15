@@ -6,12 +6,12 @@ defmodule LDAP.Index do
 
   def event(:init) do
     case N2O.user() do
-      [] -> event({:GotIt, []})
-      _ -> event(:access)
+      [] -> event({:off, []})
+      _ -> event(:on)
     end
   end
 
-  def event({:Next, form}) do
+  def event({:auth, form}) do
     cn = PLM.extract(:cn, :otp, form)
     branch = PLM.extract(:branch, :otp, form)
 
@@ -28,9 +28,9 @@ defmodule LDAP.Index do
     end
   end
 
-  def event({:Close, _}), do: NITRO.redirect("index.html")
-  def event({:revoke, x}), do: [N2O.user([]), event({:GotIt, x})]
-  def event(:access), do: PLM.box(LDAP.Forms.Access, [])
-  def event({:GotIt, _}), do: PLM.box(LDAP.Forms.Credentials, [])
+  def event({:close, _}), do: NITRO.redirect("kvs.htm")
+  def event({:revoke, x}), do: [N2O.user([]), event({:off, x})]
+  def event(:on), do: PLM.box(LDAP.Forms.Access, [])
+  def event({:off, _}), do: PLM.box(LDAP.Forms.Credentials, [])
   def event(_), do: []
 end

@@ -15,7 +15,7 @@ defmodule PLM.Forms.Error do
         p(style: "margin: 20;", body: body),
         panel(
           class: :buttons,
-          body: link(class: [:button, :sgreen], body: "Got it", id: name, postback: {:GotIt, no})
+          body: link(class: [:button, :sgreen], body: "Got it", id: name, postback: {:off, no})
         )
       ]
     )

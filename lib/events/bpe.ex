@@ -4,6 +4,7 @@ defmodule BPE.Index do
   use FORM
   require BPE
   require KVS
+
   def index_header() do
     panel(
       id: :header,
@@ -60,7 +61,7 @@ defmodule BPE.Index do
     )
   end
 
-  def event({:Spawn, _}) do
+  def event({:spawn, _}) do
     atom = 'process_type_pi_Elixir.BPE.Forms.Create' |> NITRO.q() |> NITRO.to_atom()
 
     id =
@@ -78,7 +79,7 @@ defmodule BPE.Index do
     NITRO.show(:ctrl)
   end
 
-  def event({:Discard, []}), do: [NITRO.hide(:frms), NITRO.show(:ctrl)]
+  def event({:discard, []}), do: [NITRO.hide(:frms), NITRO.show(:ctrl)]
   def event(:create), do: [NITRO.hide(:ctrl), NITRO.show(:frms)]
   def event(_), do: []
 end

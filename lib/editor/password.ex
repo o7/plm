@@ -23,15 +23,7 @@ defmodule LDAP.Forms.Credentials do
           name: :decline,
           title: "Cancel",
           class: :cancel,
-          postback: {:Close, []}
-        ),
-        but(
-          id: :sms,
-          name: :sms,
-          title: "SMS",
-          class: :cancel,
-          sources: [:cn, :branch, :otp],
-          postback: {:SMS, []}
+          postback: {:close, []}
         ),
         but(
           id: :proceed,
@@ -39,7 +31,7 @@ defmodule LDAP.Forms.Credentials do
           title: "Proceed",
           class: [:button, :sgreen],
           sources: [:company, :otp, :cn, :branch],
-          postback: {:Next, name}
+          postback: {:auth, name}
         )
       ],
       fields: [
