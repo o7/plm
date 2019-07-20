@@ -48,6 +48,8 @@ Notes
 * [2019-07-08 ERP BOOT 0.7](https://tonpa.guru/stream/2019/2019-07-08%20ERP%20BOOT.htm)
 * [2019-07-08 KVS ADM 0.7](https://tonpa.guru/stream/2019/2019-07-08%20KVS%20ADM.htm)
 * [2019-07-09 BPE ADM 0.7](https://tonpa.guru/stream/2019/2019-07-09%20BPE%20ADM.htm)
+* [2019-07-17 ENT APP 0.7](https://tonpa.guru/stream/2019/2019-07-17%20ENT%20APP.htm)
+* [2019-07-19 ENT PUB 0.7](https://tonpa.guru/stream/2019/2019-07-19%20ENT%20PUB.htm)
 
 Credits
 -------
