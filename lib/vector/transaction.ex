@@ -1,4 +1,4 @@
-defmodule PLM.Rows.Payment do
+defmodule FIN.Rows.Transaction do
   use N2O, with: [:n2o, :kvs, :nitro]
   use FORM, with: [:form]
   use BPE
@@ -8,19 +8,19 @@ defmodule PLM.Rows.Payment do
 
   def doc(),
     do:
-      "This is the actor trace row (step) representation. " <>
-        "Used to draw trace of the processes"
+      "This is the transaction representation. " <>
+        "Used to draw the account transactions"
 
   def id(), do: ERP."Payment"(volume: {0, 1})
 
-  def new(name, ERP."Payment"(invoice: id, price: p, volume: v, from: tic, type: cur)) do
+  def new(name, ERP."Payment"(subaccount: acc, price: p, volume: v, from: tic, type: cur)) do
     {s, m} = :dec.mul(p, v)
 
     x =
       case cur do
         :crypto -> s
         :fiat -> 2
-        a -> 2
+        _ -> 2
       end
 
     panel(
@@ -29,7 +29,7 @@ defmodule PLM.Rows.Payment do
       body: [
         panel(
           class: :column66,
-          body: id
+          body: acc
         ),
         panel(
           class: :column10,

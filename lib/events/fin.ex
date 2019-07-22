@@ -30,12 +30,28 @@ defmodule FIN.Index do
     )
   end
 
-  def pushAccounts(code) do
-    code
+  def pushAccounts(cn) do
+
+     account = ERP."Acc"(id: cn ++ '/local')
+
+     NITRO.insert_bottom(
+        :accountsRow,
+        FIN.Rows.Account.new(FORM.atom([:row, :account, cn]), account)
+      )
+
+     cn
   end
 
-  def pushTxs(code) do
-    code
+  def pushTxs(cn) do
+
+    for i <- :kvs.feed('/fin/tx/' ++ cn ++ '/local') do
+      NITRO.insert_bottom(
+        :txsRow,
+        FIN.Rows.Transaction.new(FORM.atom([:row, :transaction, cn]), i)
+      )
+    end
+
+    cn
   end
 
   def event(:init) do
@@ -56,17 +72,16 @@ defmodule FIN.Index do
         )
 
       ERP."Employee"(person: ERP."Person"(cn: id)) ->
-        event({:txs, id})
+        send self(), {:direct, {:txs, id} }
     end
   end
 
-  def event({:txs, _}) do
+  def event({:txs, id}) do
     NITRO.insert_top(:accountsHead, FIN.Index.accountsHeader())
     NITRO.insert_top(:txsHead, FIN.Index.txsHeader())
     NITRO.update(:num, span(body: KVS.Index.parse(N2O.user())))
     NITRO.hide(:frms)
-
-    :p |> NITRO.qc() |> NITRO.to_list() |> pushAccounts |> pushTxs
+    id |> pushAccounts |> pushTxs
   end
 
   def event({:off, _}), do: NITRO.redirect("ldap.htm")
