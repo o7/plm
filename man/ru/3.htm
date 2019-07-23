@@ -1,0 +1,432 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Namdak Tonpa"/>
+    <title>2019-07-08</title>
+    <link rel="stylesheet" href="https://tonpa.guru/blank.css?v=11"/>
+</head>
+<body>
+<nav>
+    <a href='../../index.html'>PLM</a>
+    <a href='1.htm'>1</a>
+    <a href='2.htm'>2</a>
+    <a href='3.htm'>3</a>
+    <a href='4.htm'>4</a>
+    <a href='5.htm'>5</a>
+    <a href='6.htm'>6</a>
+    <a href='7.htm'>7</a>
+</nav>
+<main>
+    <section>
+        <h3>Часть 3. Создание цепочек</h3>
+
+        <p>— <a href="2019-06-30%20DEPOT.htm">Часть 1. Введение</a><br>
+           — <a href="2019-07-01%20ERP%20MOD.htm">Часть 2. Общая структура</a><br>
+           — <a href="2019-07-08%20ERP%20BOOT.htm">Часть 3. Первичные цепочки</a><br>
+           — <a href="2019-07-08%20KVS%20ADM.htm">Часть 4. Администратор данных</a><br>
+           — <a href="2019-07-09%20BPE%20ADM.htm">Часть 5. Администратор процессов</a><br>
+           — <a href="2019-07-17%20ENT%20APP.htm">Часть 6. Структура приложения</a><br>
+           — <a href="2019-07-19%20ENT%20PUB.htm">Часть 7. Публикация в GCP</a></p>
+
+        <p>В этой статье я расскажу как мы описываем схему бизнес-объектов
+           предприятия и как мы определяем иерархическую структуру идентификаторов цепочек
+           этих объектов. Это определит интерфейс оператора системы, который сможет
+           работать с системой без графической оболочки.</p>
+
+    </section>
+    <section>
+
+
+        <h3>Типовые спецификации</h3>
+
+        <p>Схема включает в себя всю типовую информацию о бизнес-объектах.
+           Схема ERP модуля определяет базовые объекты организационной структуры,
+           объекты платежной системы PAY и системы учета сотрудников ACC.</p>
+
+        <h4>ERP SPEC — Таблицы организационной структуры</h4>
+
+   <figure><code>
+-type locationType() :: normal | extra.
+
+-record('Loc',
+{ id          = kvs:seq([],[]) :: [] | term(),
+  code        = [] :: [] | term(),
+  country     = [] :: [] | binary(),
+  city        = [] :: [] | binary(),
+  address     = [] :: [] | binary(),
+  type        = [] :: locationType() }).
+
+-record('Branch',
+{ id          = kvs:seq([],[]) :: [] | term(),
+  loc         = [] :: [] | #'Loc'{} }).
+
+-record('Inventory',
+{ id          = [] :: [] | binary(),
+  name        = [] :: [] | binary(),
+  branch      = [] :: [] | #'Branch'{},
+  type        = [] :: term() }).
+
+-record('Organization',
+{ name        = [] :: [] | binary(),
+  url         = [] :: [] | string(),
+  location    = [] :: [] | #'Loc'{},
+  type        = [] :: term() }).
+
+-record('Person',
+{ id          = kvs:seq([],[]) :: [] | term(),
+  cn          = [] :: [] | binary(),
+  name        = [] :: [] | binary(),
+  displayName = [] :: [] | binary(),
+  location    = [] :: #'Loc'{},
+  type        = [] :: term() }).
+
+
+-record('Employee',
+{ id          = kvs:seq([],[]) :: [] | binary(),
+  person      = [] :: [] | #'Person'{},
+  org         = [] :: [] | #'Organization'{},
+  branch      = [] :: [] | #'Branch'{},
+  type        = [] :: term() }).
+    </code></figure>
+
+        <h4>PAY SPEC — Таблицы системы управления платежами</h4>
+
+        <p>Деньги хранятся в формате <b>{N,M}</b>, где <b>N</b> — количество знаков после запятой,
+           а <b>M</b> — все значимые цифры. Таким образом числа кодируются множественным образом,
+           например единица: 1 = {0,1} = {1,10} = {2,100}. Операция умножения зато в такой системе
+           выглядит просто <b>mul({A,B},{C,D}) -> {A+C,B*D}</b>.
+           </p>
+
+   <figure><code>
+-type fraction_length() :: integer().
+-type digits() :: integer().
+-type money() :: {fraction_length(),digits()}.
+
+-record('Payment',
+{ invoice = [] :: [] | term(),
+  volume = [] :: [] | money(),
+  price = {0,1} :: money(),
+  instrument = [] :: term(),
+  type = [] :: paymentType(),
+  from = [] :: term(),
+  to = [] :: term() }).
+    </code></figure>
+
+        <h4>PLM SPEC — Таблицы системы управления жизненным циклом</h4>
+
+   <figure><code>
+-record('Acc',
+{ id   = [] :: [] | binary() | list(),
+  rate = {0,0} :: money() }).
+
+-record('Product',
+{ code         = [] :: [] | term(),
+  id           = kvs:seq([],[]) :: [] | binary(),
+  url          = [] :: [] | binary() | list(),
+  engineer     = [] :: [] | #'Person'{},
+  director     = [] :: [] | #'Person'{},
+  owner        = [] :: [] | #'Person'{},
+  organization = [] :: [] | #'Organization'{},
+  type         = [] :: productType() }).
+
+-record('Investment',
+{ id = [] :: [] | term(),
+  volume = [] :: [] | money(),
+  price = {0,1} :: money(),
+  instrument = [] :: term(),
+  type = [] :: investmentType(),
+  from = [] :: term(),
+  to = [] :: term() }).
+    </code></figure>
+
+    </section>
+    <section>
+        <h3>Создание корневых цепочек</h3>
+
+        <p>ERP BOOT или пусконаладка преприятия — это процес заполнения первичных
+           словарей и таблиц фундаментальной информацией. Главным образом это отображение
+           иерархической, организационной структуры предприятия.
+           От работника предприятия, его рабочего места,
+           его бренча, его локальной компании все
+           бренчи которое находятся в одной стране, и далее до группы международных компании с офисами в разныз странах мира,
+           и возможно даже до синдикатов транснациональныз корпораций. В зависимости от того какую
+           организационную структуру предприятия вы хотите
+           так вы раскладываете данные на первичные фиды.</p>
+
+        <h4>ERP BOOT — Организационная структура предприятия</h4>
+
+        <p>Рассмотрим пример: компания Quanterall, главный подрядчик Aethernity, имеет офисы в
+           Софии, Варне (главный офис компании) и Пловдиве. Сама компания совершает операции только в Болгарии,
+           поэтому группа состоит из одной компании.</p>
+
+        <p>Добавляем сейчас и впредь данные с помощью обычных list комбинаторов:</p>
+
+   <figure><code>
+-module(erp).
+-compile(export_all).
+
+boot() ->
+    GroupOrgs =
+  [ #'Organization'{
+      name="Quanterall",
+      url="quanterall.com"} ],
+
+    HeadBranches =
+  [ #'Branch'{ loc = #'Loc'{ city =
+     "Varna", country = "BG" } },
+    #'Branch'{ loc = #'Loc'{ city =
+     "Sophia", country = "BG" } },
+    #'Branch'{ loc = #'Loc'{ city =
+     "Plovdiv", country = "BG" } } ],
+
+    PartnersOrgs =
+  [ #'Organization'{ name="NYNJA"},
+    #'Organization'{ name="Catalx"},
+    #'Organization'{ name="FiaTech"},
+    #'Organization'{ name="3Stars"},
+    #'Organization'{ name="SwissEMX"},
+    #'Organization'{ name="HistoricalPark"},
+    #'Organization'{ name="Intralinks"} ],
+
+    Structure =
+  [ {"/erp/group", GroupOrgs},
+    {"/erp/partners", PartnersOrgs},
+    {"/erp/quanterall", HeadBranches} ],
+
+    lists:foreach(fun({Feed, Data}) ->
+       case kvs:get(writer, Feed) of
+            {ok,_} -> skip;
+         {error,_} -> lists:map(fun(X) ->
+                      kvs:append(X,Feed)
+       end, Data) end end, Structure).
+    </code></figure>
+
+        <h4>PAY BOOT — Учётность CashFlow</h4>
+
+        <p>Управление отчетностью аутсорс предприятия достаточно простое:
+           1) мы принимаем оплаты по инвойсам выставленным клиентам периодически регулярно раз в месяц;
+           2) мы выплачиваем зарплаты раз в месяц. Поэтому фолды группируются календарно
+           и зипуются помесячно.</p>
+
+   <figure><code>
+sal_boot() ->
+   lists:map(fun(#'Product'{code=C} = P) ->
+      lists:map(fun(#'Payment'{}=Pay) ->
+         kvs:append(Pay,
+         "/plm/"++C++"/outcome") end,
+           salaries(C))
+      end, products()).
+
+pay_boot() ->
+   lists:map(fun(#'Product'{code=C} = P) ->
+      lists:map(fun(#'Payment'{}=Pay) ->
+         kvs:append(Pay,
+         "/plm/"++C++"/income") end,
+           payments(C))
+      end, products()).
+    </code></figure>
+
+        <h4>PLM BOOT — Бюджетирование проектов</h4>
+
+       <p>Инициализация почасовая для каждого сотрудника по проекту.
+          Этот список будет использоваться в будущем для распределения
+          выплат по опционам.<b></b> </p>
+
+   <figure><code>
+assignees() ->
+   lists:map(fun(#'Product'{code=C} = P) ->
+      case kvs:get(writer,"/plm/"++C++"/staff") of
+           {error,_} ->
+             lists:map(fun(#'Person'{}=Person) ->
+             kvs:append(Person,
+             "/plm/"++C++"/staff") end,staff(C));
+           {ok,_} -> skip end
+      end, products()).
+    </code></figure>
+
+
+    <p>Выплаты по процентам на субконто попроектно:</p>
+
+   <figure><code>
+accounts() ->
+  lists:map(fun(#'Product'{code=C}) ->
+    lists:map(fun(#'Acc'{id=Id, rate=R}=SubAcc) ->
+      Address = lists:concat(["/fin/acc/",C]),
+      kvs:append(SubAcc,Address),
+      Feed = lists:concat(["/fin/tx/",Id]),
+      case kvs:get(writer, Feed) of
+           {error,_} ->
+             lists:map(fun(#'Payment'{
+               invoice=I,price=P, volume=V}=Pay) ->
+             kvs:append(rate(Pay,SubAcc,C), Feed)
+             end, payments(C));
+             {ok,_} -> skip
+      end
+    end, acc(C))
+  end, plm_boot:products()).
+    </code></figure>
+
+        <p>За работу с данными отвечает библиотека KVS, как работать с ней читайте в предыдущих
+           выпусках журнала:</p>
+          <p>— <a href="https://tonpa.guru/stream/2019/2019-04-13%20Новая%20версия%20KVX.htm">2019-04-13 Новая Версия KVS</a><br>
+          — <a href="https://github.com/synrc/kvs">synrc/kvs</a></p>
+    </section>
+    <section>
+        <h3>Инкапсуляция структуры предприятия</h3>
+        <p>Весь код который нужен для создания фидов мы обычно выносим в приложение с названием
+           ERP. Для каждого конкретного предприятия мы используем свою Github
+           организацию, можно даже другое имя репозитория, но всегда это же имя Erlang/OTP
+           приложления.</p>
+          <p>— <a href="https://github.com/enterprizing/erp">enterprizing/erp</a></p>
+        <p>В этом репозитории будут всегда какие-то реальные данные компании которую мы автоматизируем,
+           если она нам разрешает публиковать свою организационную структуру, первичные данные и словари.
+           Делаем этот репозиторий приватный в отдельных случаях. Сами приложения способны
+           работать с любыми структурами ERP.</p>
+    </section>
+    <section>
+        <h3>Примеры запросов к хранилищу</h3>
+
+        <p>Elixir прелюдия:</p>
+
+   <figure><code>
+defmodule PLM.Mixfile do
+  use Mix.Project
+  def project() do
+    [
+      app: :plm,
+      version: "0.7.1",
+      elixir: "~> 1.8.1",
+      description: "PLM Product Lifecycle Management",
+      deps: [{:bpe, "~> 4.7.3"}, {:erp, "~> 0.7.6"}]
+    ]
+  end
+  def application(),
+    do: [mod: {PLM.Application, []},
+         applications: [:rocksdb, :kvs, :bpe, :erp]]
+end
+    </code></figure>
+
+        <p>Содержимое корневой директории БД предприятия:</p>
+
+   <figure><code>
+>  :writer |> :kvs.all |> :lists.sort
+[
+  {:writer, '/acc/quanterall/Plovdiv', 3, [], [], []},
+  {:writer, '/acc/quanterall/Sophia', 9, [], [], []},
+  {:writer, '/acc/quanterall/Varna', 23, [], [], []},
+  {:writer, '/bpe/hist/1562855060639704000', 1, [], [], []},
+  {:writer, '/bpe/proc', 1, [], [], []},
+  {:writer, '/erp/group', 1, [], [], []},
+  {:writer, '/erp/partners', 7, [], [], []},
+  {:writer, '/erp/quanterall', 3, [], [], []},
+  {:writer, '/fin/acc/CATALX', 4, [], [], []},
+  {:writer, '/fin/acc/NYNJA', 4, [], [], []},
+  {:writer, '/fin/tx/CATALX/R&D', 12, [], [], []},
+  {:writer, '/fin/tx/CATALX/insurance', 12, [], [], []},
+  {:writer, '/fin/tx/CATALX/options', 12, [], [], []},
+  {:writer, '/fin/tx/CATALX/reserved', 12, [], [], []},
+  {:writer, '/fin/tx/NYNJA/R&D', 5, [], [], []},
+  {:writer, '/fin/tx/NYNJA/insurance', 5, [], [], []},
+  {:writer, '/fin/tx/NYNJA/options', 5, [], [], []},
+  {:writer, '/fin/tx/NYNJA/reserved', 5, [], [], []},
+  {:writer, '/plm/CATALX/income', 12, [], [], []},
+  {:writer, '/plm/CATALX/investments', 4, [], [], []},
+  {:writer, '/plm/CATALX/outcome', 12, [], [], []},
+  {:writer, '/plm/CATALX/staff', 2, [], [], []},
+  {:writer, '/plm/NYNJA/income', 5, [], [], []},
+  {:writer, '/plm/NYNJA/investments', 2, [], [], []},
+  {:writer, '/plm/NYNJA/outcome', 5, [], [], []},
+  {:writer, '/plm/NYNJA/staff', 4, [], [], []},
+  {:writer, '/plm/products', 2, [], [], []}
+]
+    </code></figure>
+
+        <p>Список компаний входящие в группу предприяти:</p>
+
+   <figure><code>
+> :kvs.feed '/erp/group'
+[{:Organization, 'Quanterall', 'quanterall.com', [], []}]
+    </code></figure>
+
+        <p>Список бреч-офисов головной (и единственной) компании группы:</p>
+
+   <figure><code>
+> :kvs.feed '/erp/quanterall'
+[
+  {:Branch, '1562329445378242000',
+   {:Loc, '1562329445378243000', [], 'BG', 'Plovdiv', [], []}},
+  {:Branch, '1562329445378241000',
+   {:Loc, '1562329445378242000', [], 'BG', 'Sophia', [], []}},
+  {:Branch, '1562329445378234000',
+   {:Loc, '1562329445378240000', [], 'BG', 'Varna', [], []}}
+]
+    </code></figure>
+
+        <p>Список контрагентнов:</p>
+
+   <figure><code>
+> :kvs.feed '/erp/partners'
+[
+  {:Organization, 'Catalx Exchange Inc.', 'catalx.io', [], []},
+  {:Organization, 'HistoricalPark', [], [], []},
+  {:Organization, 'NYNJA, Inc.', 'nynja.io', [], []},
+  {:Organization, 'Intralinks', [], [], []},
+  {:Organization, 'SwissEMX', [], [], []},
+  {:Organization, 'FiaTech', [], [], []},
+  {:Organization, '3Stars', [], [], []}
+]
+    </code></figure>
+
+    <p>Бюджетирование проекта по статьям субконто:</p>
+
+   <figure><code>
+> :kvs.feed '/fin/acc/NYNJA'
+[
+  {:Acc, 'NYNJA/insurance', {2, 70}},
+  {:Acc, 'NYNJA/reserved', {2, 10}},
+  {:Acc, 'NYNJA/options', {2, 10}},
+  {:Acc, 'NYNJA/R&D', {2, 10}}
+]
+    </code></figure>
+
+    <p>Выплаты по опционам для программистов:</p>
+
+   <figure><code>
+> :kvs.feed '/fin/tx/CATALX/options'
+[
+  {:Payment, '1562868880497278000', {0, 1}, {2, 150000}, 'USD', :crypto, [], []},
+  {:Payment, '1562868880496849000', {0, 1}, {2, 100000}, 'USD', :crypto, [], []},
+  {:Payment, '1562868880496409000', {0, 1}, {2, 120000}, 'USD', :crypto, [], []},
+  {:Payment, '1562868880495897000', {0, 1}, {2, 150000}, 'USD', :crypto, [], []},
+  {:Payment, '1562868880495412000', {0, 1}, {2, 100000}, 'USD', :crypto, [], []},
+  {:Payment, '1562868880494920000', {0, 1}, {2, 100000}, 'USD', :crypto, [], []},
+  {:Payment, '1562868880494538000', {0, 1}, {2, 100000}, 'USD', :crypto, [], []},
+  {:Payment, '1562868880494072000', {0, 1}, {2, 50000}, 'USD', :crypto, [], []},
+  {:Payment, '1562868880493672000', {0, 1}, {2, 70000}, 'USD', :crypto, [], []},
+  {:Payment, '1562868880493387000', {0, 1}, {2, 150000}, 'USD', :crypto, [], []},
+  {:Payment, '1562868880492939000', {0, 1}, {2, 120000}, 'USD', :crypto, [], []},
+  {:Payment, '1562868880492234000', {0, 1}, {2, 120000}, 'USD', :crypto, [], []}
+]
+    </code></figure>
+
+    <p>Люди, работающие на проекте:</p>
+
+   <figure><code>
+> :kvs.feed '/plm/NYNJA/staff'
+[
+  {:Person, '1562868880467887000', 'Maxim Sokhatsky', [], [], [], 1, []},
+  {:Person, '1562868880467886000', 'Yuri Maslovsky', [], [], [], 8, []},
+  {:Person, '1562868880467885000', 'Nikolay Dimitrov', [], [], [], 4, []},
+  {:Person, '1562868880467884000', 'Radostin Dimitrov', [], [], [], 4, []},
+  {:Person, '1562868880467883000', 'Georgi Spasov', [], [], [], 8, []}
+]
+    </code></figure>
+
+    </section>
+</main>
+<footer>Namdak Tonpa <span class="heart">&nbsp;❤&nbsp;</span> 2009—2019</footer>
+</body>
+</html>

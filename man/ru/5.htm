@@ -1,0 +1,105 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Namdak Tonpa"/>
+    <title>2019-07-09</title>
+    <link rel="stylesheet" href="https://tonpa.guru/blank.css?v=11"/>
+</head>
+<body>
+<nav>
+    <a href='../../index.html'>PLM</a>
+    <a href='1.htm'>1</a>
+    <a href='2.htm'>2</a>
+    <a href='3.htm'>3</a>
+    <a href='4.htm'>4</a>
+    <a href='5.htm'>5</a>
+    <a href='6.htm'>6</a>
+    <a href='7.htm'>7</a>
+</nav>
+<main>
+    <section>
+        <h3>Часть 5. Администратор процессов</h3>
+
+        <p>— <a href="2019-06-30%20DEPOT.htm">Часть 1. Введение</a><br>
+           — <a href="2019-07-01%20ERP%20MOD.htm">Часть 2. Общая структура</a><br>
+           — <a href="2019-07-08%20ERP%20BOOT.htm">Часть 3. Первичные цепочки</a><br>
+           — <a href="2019-07-08%20KVS%20ADM.htm">Часть 4. Администратор данных</a><br>
+           — <a href="2019-07-09%20BPE%20ADM.htm">Часть 5. Администратор процессов</a><br>
+           — <a href="2019-07-17%20ENT%20APP.htm">Часть 6. Структура приложения</a><br>
+           — <a href="2019-07-19%20ENT%20PUB.htm">Часть 7. Публикация в GCP</a></p>
+
+        <p>В этой статье я расскажу как написать простую админку для BPE
+           на NITRO.</p>
+
+    </section>
+    <section>
+    <h3>Постановка задачи</h3>
+    <h3>Процессы</h3>
+
+    <h4>Протокол процесса BPE.Account</h4>
+
+   <figure><code>
+def action({:request, :Created:})
+def action({:request, :Init})
+def action({:request, :Upload})
+def action({:request, :Payment})
+def action({:request, :Process})
+def action({:request, :Final})
+   </code></figure>
+    <h3>Страницы</h3>
+
+    <h4>BPE.Index</h4>
+    <figure><img src="ent/3.png"></figure>
+    <figure><code>
+def event(:init)
+def event(:create)
+def event({:discard, form})
+def event({:spawn, what})
+def event({:complete, id})
+    </code></figure>
+
+    <h4>BPE.Actor</h4>
+    <figure><img src="ent/8.png"></figure>
+    <figure><img src="ent/10.png"></figure>
+    <figure><code>
+def event(:init)
+def event({:txs, proc})
+def event({:off, form})
+    </code></figure>
+
+
+    <h3>Редакторы</h3>
+
+    <h4>Форма BPE.Forms.Create</h4>
+
+    <figure><img src="ent/12.png"></figure>
+
+    <h3>Векторы</h3>
+
+    <h4>Строка BPE.Rows.Process</h4>
+
+    <figure><img src="ent/13.png"></figure>
+
+    <h4>Строка BPE.Rows.Trace</h4>
+
+    <figure><img src="ent/14.png"></figure>
+
+    <h3>Роутер</h3>
+    
+    <p>Роутер страниц модуля BPE.</p>
+
+   <p>
+act — BPE.Actor<br>
+bpe — BPE.Index<br>
+    </p>
+
+    <p>Код приложения можно найти в следующих репозиториях:</p>
+    <p>— <a href="https://github.com/enterprizing/plm">enterprizing/plm</a></p>
+    </section>
+</main>
+<footer>Namdak Tonpa <span class="heart">&nbsp;❤&nbsp;</span> 2009—2019</footer>
+</body>
+</html>
