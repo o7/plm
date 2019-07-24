@@ -18,22 +18,22 @@
     <a href='5.htm' style="background:#ededed;">5</a>
     <a href='6.htm'>6</a>
     <a href='7.htm'>7</a>
-    <a href='../ua/5.htm'>UA</a>
-    <a href='../ru/5.htm' style="background:#ededed;">RU</a>
+    <a href='../ua/5.htm' style="background:#ededed;">UA</a>
+    <a href='../ru/5.htm'>RU</a>
 </nav>
 <main>
     <section>
-        <h3>Часть 5. Администратор процессов</h3>
+        <h3>Частина 5. Адміністратор процесів</h3>
 
-        <p>В этой статье я расскажу как написать простую админку для BPE
+        <p>У цій статті ми покажемо як написати простий адміністратор процесів для BPE
            на NITRO.</p>
 
     </section>
     <section>
-    <h3>Постановка задачи</h3>
-    <h3>Процессы</h3>
+    <h3>Постановка задачі</h3>
+    <h3>Процеси</h3>
 
-    <h4>Протокол процесса BPE.Account</h4>
+    <h4>Протокол процессу BPE.Account</h4>
 
    <figure><code>
 def action({:request, :Created:})
@@ -43,7 +43,7 @@ def action({:request, :Payment})
 def action({:request, :Process})
 def action({:request, :Final})
    </code></figure>
-    <h3>Страницы</h3>
+    <h3>Сторінки</h3>
 
     <h4>BPE.Index</h4>
     <figure><img src="../images/3.png"></figure>
@@ -65,33 +65,35 @@ def event({:off, form})
     </code></figure>
 
 
-    <h3>Редакторы</h3>
+    <h3>Редактори</h3>
 
     <h4>Форма BPE.Forms.Create</h4>
 
     <figure><img src="../images/12.png"></figure>
 
-    <h3>Векторы</h3>
+    <h3>Вектори</h3>
 
-    <h4>Строка BPE.Rows.Process</h4>
+    <h4>Рядок BPE.Rows.Process</h4>
 
     <figure><img src="../images/13.png"></figure>
 
-    <h4>Строка BPE.Rows.Trace</h4>
+    <h4>Рядок BPE.Rows.Trace</h4>
 
     <figure><img src="../images/14.png"></figure>
 
     <h3>Роутер</h3>
-    
-    <p>Роутер страниц модуля BPE.</p>
+
+    <p>Роутер сторінки модуля BPE.</p>
 
    <p>
 act — BPE.Actor<br>
 bpe — BPE.Index<br>
     </p>
 
-    <p>Код приложения можно найти в следующих репозиториях:</p>
-    <p>— <a href="https://github.com/enterprizing/plm">enterprizing/plm</a></p>
+    <p>Код додатку можно знайти у наступних репозиторіях:</p>
+
+    <p>— <a href="https://github.com/o7/plm">o7/plm</a></p>
+
     </section>
 </main>
 <footer>Namdak Tonpa <span class="heart">&nbsp;❤&nbsp;</span> 2009—2019</footer>
