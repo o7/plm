@@ -55,5 +55,6 @@ Credits
 -------
 
 * Maxim Sokhatsky [5HT](https://github.com/5HT)
+* Radostin Dimitrov [rdimitrovbg](https://github.com/rdimitrovbg)
 
 OM A HUM
