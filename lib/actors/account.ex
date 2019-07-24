@@ -2,35 +2,35 @@ defmodule BPE.Account do
   @moduledoc """
   `PLM.Account` is a process that handles user investments.
   """
-  use BPE, with: [:bpe, :nitro]
   require ERP
+  require BPE
   require Record
   Record.defrecord(:close_account, [])
   Record.defrecord(:tx, [])
 
   def def() do
-    process(
+    BPE.process(
       name: :n2o.user(),
       flows: [
-        sequenceFlow(source: :Created, target: :Init),
-        sequenceFlow(source: :Init, target: :Upload),
-        sequenceFlow(source: :Upload, target: :Payment),
-        sequenceFlow(source: :Payment, target: [:Signatory, :Process]),
-        sequenceFlow(source: :Process, target: [:Process, :Final]),
-        sequenceFlow(source: :Signatory, target: [:Process, :Final])
+        BPE.sequenceFlow(source: :Created, target: :Init),
+        BPE.sequenceFlow(source: :Init, target: :Upload),
+        BPE.sequenceFlow(source: :Upload, target: :Payment),
+        BPE.sequenceFlow(source: :Payment, target: [:Signatory, :Process]),
+        BPE.sequenceFlow(source: :Process, target: [:Process, :Final]),
+        BPE.sequenceFlow(source: :Signatory, target: [:Process, :Final])
       ],
       tasks: [
-        userTask(name: :Created, module: PLM.Account),
-        userTask(name: :Init, module: PLM.Account),
-        userTask(name: :Upload, module: PLM.Account),
-        userTask(name: :Signatory, module: PLM.Account),
-        serviceTask(name: :Payment, module: PLM.Account),
-        serviceTask(name: :Process, module: PLM.Account),
-        endEvent(name: :Final, module: PLM.Account)
+        BPE.userTask(name: :Created, module: BPE.Account),
+        BPE.userTask(name: :Init, module: BPE.Account),
+        BPE.userTask(name: :Upload, module: BPE.Account),
+        BPE.userTask(name: :Signatory, module: BPE.Account),
+        BPE.serviceTask(name: :Payment, module: BPE.Account),
+        BPE.serviceTask(name: :Process, module: BPE.Account),
+        BPE.endEvent(name: :Final, module: BPE.Account)
       ],
       beginEvent: :Init,
       endEvent: :Final,
-      events: [messageEvent(name: :PaymentReceived)]
+      events: [BPE.messageEvent(name: :PaymentReceived)]
     )
   end
 
@@ -45,10 +45,10 @@ defmodule BPE.Account do
   end
 
   def action({:request, :Payment}, proc) do
-    payment = BPE.doc({:payment_notification}, proc)
+    payment = :bpe.doc({:payment_notification}, proc)
 
     case payment do
-      [] -> {:reply, :Process, process(proc, docs: [tx()])}
+      [] -> {:reply, :Process, BPE.process(proc, docs: [tx()])}
       _ -> {:reply, :Signatory, Proc}
     end
   end
@@ -58,7 +58,7 @@ defmodule BPE.Account do
   end
 
   def action({:request, :Process}, proc) do
-    case BPE.doc(close_account(), proc) do
+    case :bpe.doc(close_account(), proc) do
       close_account() -> {:reply, :Final, proc}
       _ -> {:reply, proc}
     end
