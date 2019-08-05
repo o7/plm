@@ -1,30 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content=""/>
-    <meta name="author" content="Namdak Tonpa"/>
-    <title>2019-07-08</title>
-    <link rel="stylesheet" href="https://tonpa.guru/blank.css?v=2"/>
-</head>
-<body>
-<nav>
-    <a href='../../index.html'>PLM</a>
-    <a href='1.htm'>1</a>
-    <a href='2.htm'>2</a>
-    <a href='3.htm'>3</a>
-    <a href='4.htm' style="background:#ededed;">4</a>
-    <a href='5.htm'>5</a>
-    <a href='6.htm'>6</a>
-    <a href='7.htm'>7</a>
-    <a href='../ua/4.htm' style="background:#ededed;">UA</a>
-    <a href='../ru/4.htm'>RU</a>
-</nav>
-<header>
-</header>
-<main>
+<!DOCTYPE html><html><head><meta charset="utf-8" /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="" /><meta name="author" content="Namdak Tonpa" /><title>2019-07-08</title><link rel="stylesheet" href="https://tonpa.guru/blank.css?v=2" /></head><body><nav>
+    <a href="../../index.html">PLM</a>
+    <a href="1.htm">1</a>
+    <a href="2.htm">2</a>
+    <a href="3.htm">3</a>
+    <a href="4.htm" style="background:#ededed;">4</a>
+    <a href="5.htm">5</a>
+    <a href="6.htm">6</a>
+    <a href="7.htm">7</a>
+    <a href="../ua/4.htm" style="background:#ededed;">UA</a>
+    <a href="../ru/4.htm">RU</a>
+</nav><header>
+</header><main>
     <section>
         <h3>Частина 4. Адміністратор даних</h3>
 
@@ -36,7 +22,7 @@
     <h3>Постановка задачі</h3>
     <h3>Cторінки</h3>
     <h4>KVS.Index</h4>
-    <figure><img src="../images/2.png"/></figure>
+    <figure><img src="../images/2.png" /></figure>
  
     <figure><code>
   def event(:init)
@@ -72,17 +58,17 @@
     &lt;section&gt;
       &lt;h2&gt;KVS&lt;/h2&gt;
       &lt;p&gt;Abstract chain database&lt;/p&gt;
-      &lt;div&gt;USER: &lt;span id=<font color=red>user</font>&gt;&lt;/span&gt;
-            SSD: &lt;span id=<font color=red>disc</font>&gt;&lt;/span&gt;
-            RAM: &lt;span id=<font color=red>ram</font>&gt;&lt;/span&gt;&lt;br&gt;
-        SESSION: &lt;span id=<font color=red>session</font>&gt;&lt;/span&gt;
-             VM: &lt;span id=<font color=red>enode</font>&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div&gt;USER: &lt;span id=<font color="red">user</font>&gt;&lt;/span&gt;
+            SSD: &lt;span id=<font color="red">disc</font>&gt;&lt;/span&gt;
+            RAM: &lt;span id=<font color="red">ram</font>&gt;&lt;/span&gt;&lt;br&gt;
+        SESSION: &lt;span id=<font color="red">session</font>&gt;&lt;/span&gt;
+             VM: &lt;span id=<font color="red">enode</font>&gt;&lt;/span&gt;&lt;/div&gt;
     &lt;/section&gt;
     &lt;div class=container&gt;
       &lt;div&gt;&lt;h2&gt;WRITERS&lt;/h2&gt;
-      &lt;div id=<font color=red>writers</font>&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;div id=<font color="red">writers</font>&gt;&lt;/div&gt;&lt;/div&gt;
       &lt;div&gt;&lt;h2&gt;CHAINS&lt;/h2&gt;
-      &lt;div id=<font color=red>feeds</font>&gt;To display the chain
+      &lt;div id=<font color="red">feeds</font>&gt;To display the chain
               select the writer.&lt;/div&gt;&lt;/div&gt;
     &lt;/div&gt;
   &lt;/article&gt;
@@ -92,7 +78,7 @@
     <h4>lib/events/kvs.ex</h4>
 
    <figure><code>
-defmodule <font color=red>KVS.Index</font> do
+defmodule <font color="red">KVS.Index</font> do
   use N2O, with: [:n2o, :nitro]
   use FORM
   use KVS
@@ -106,32 +92,32 @@ defmodule <font color=red>KVS.Index</font> do
 
   def event(:init),
     do:
-      [<font color=red>:user</font>, <font color=red>:writers</font>, <font color=red>:session</font>, <font color=red>:enode</font>]
+      [<font color="red">:user</font>, <font color="red">:writers</font>, <font color="red">:session</font>, <font color="red">:enode</font>]
       |> Enum.map(fn x ->
        [ NITRO.clear(x),
          send(self(), {:direct, x})] end)
 
-  def event(<font color=red>:user</font>),
-  do: NITRO.update(<font color=red>:user</font>,
+  def event(<font color="red">:user</font>),
+  do: NITRO.update(<font color="red">:user</font>,
       span(body: parse(:n2o.user())))
 
-  def event(<font color=red>:session</font>),
-  do: NITRO.update(<font color=red>:session</font>,
+  def event(<font color="red">:session</font>),
+  do: NITRO.update(<font color="red">:session</font>,
       span(body: :n2o.sid()))
 
-  def event(<font color=red>:enode</font>),
-  do: NITRO.update(<font color=red>:enode</font>,
+  def event(<font color="red">:enode</font>),
+  do: NITRO.update(<font color="red">:enode</font>,
       span(body: NITRO.compact(:erlang.node())))
 
   def event({:link, i}),
   do: [
-      NITRO.clear(<font color=red>:feeds</font>),
+      NITRO.clear(<font color="red">:feeds</font>),
       :kvs.feed(i) |> Enum.map(fn t ->
         NITRO.insert_bottom(:feeds,
           panel(body: NITRO.compact(t))) end)
     ]
 
-  def event(<font color=red>:writers</font>),
+  def event(<font color="red">:writers</font>),
     do:
       :writer
       |> :kvs.all()
@@ -152,7 +138,7 @@ end
 
    <h3>Роутер</h3>
    <p>
-kvs — KVS.Index<br>
+kvs — KVS.Index<br />
     </p>
 
     </section>
@@ -163,7 +149,4 @@ kvs — KVS.Index<br>
     <p>— <a href="https://github.com/o7/plm">o7/plm</a></p>
 
     </section>
-</main>
-<footer>Namdak Tonpa <span class="heart">&nbsp;❤&nbsp;</span> 2009—2019</footer>
-</body>
-</html>
+</main><footer>Namdak Tonpa <span class="heart">&#160;❤&#160;</span> 2009—2019</footer></body></html>

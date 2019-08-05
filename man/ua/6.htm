@@ -1,30 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content=""/>
-    <meta name="author" content="Namdak Tonpa"/>
-    <title>2019-07-17</title>
-    <link rel="stylesheet" href="https://tonpa.guru/blank.css?v=2"/>
-</head>
-<body>
-<nav>
-    <a href='../../index.html'>PLM</a>
-    <a href='1.htm'>1</a>
-    <a href='2.htm'>2</a>
-    <a href='3.htm'>3</a>
-    <a href='4.htm'>4</a>
-    <a href='5.htm'>5</a>
-    <a href='6.htm' style="background:#ededed;">6</a>
-    <a href='7.htm'>7</a>
-    <a href='../ua/6.htm' style="background:#ededed;">UA</a>
-    <a href='../ru/6.htm'>RU</a>
-</nav>
-<header>
-</header>
-<main>
+<!DOCTYPE html><html><head><meta charset="utf-8" /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="" /><meta name="author" content="Namdak Tonpa" /><title>2019-07-17</title><link rel="stylesheet" href="https://tonpa.guru/blank.css?v=2" /></head><body><nav>
+    <a href="../../index.html">PLM</a>
+    <a href="1.htm">1</a>
+    <a href="2.htm">2</a>
+    <a href="3.htm">3</a>
+    <a href="4.htm">4</a>
+    <a href="5.htm">5</a>
+    <a href="6.htm" style="background:#ededed;">6</a>
+    <a href="7.htm">7</a>
+    <a href="../ua/6.htm" style="background:#ededed;">UA</a>
+    <a href="../ru/6.htm">RU</a>
+</nav><header>
+</header><main>
     <section>
         <h3>Частина 6. Структура додатку PLM</h3>
 
@@ -68,7 +54,7 @@ config :n2o,
   mqtt_services: ['erp', 'plm'],
   ws_services: ['chat'],
   upload: "./priv/static",
-  routes: <font color=red>KVS.Routes</font>,
+  routes: <font color="red">KVS.Routes</font>,
   protocols:
   [
     :n2o_heart,
@@ -153,12 +139,12 @@ emd
 
        <h3>Сторінки</h3>
 
-       <figure><img src="../images/1.png"></figure>
+       <figure><img src="../images/1.png" /></figure>
 
        <h3>PLM</h3>
 
        <h4>PLM.Index</h4>
-       <figure><img src="../images/6.png"></figure>
+       <figure><img src="../images/6.png" /></figure>
 
     <figure><code>
 def event(:init)
@@ -167,7 +153,7 @@ def event({:invest, code})
     </code></figure>
 
        <h4>PLM.CashFlow</h4>
-       <figure><img src="../images/7.png"></figure>
+       <figure><img src="../images/7.png" /></figure>
 
     <figure><code>
 def event(:init)
@@ -179,8 +165,8 @@ def event({:discard, []})
 
        <h3>FIN</h3>
        <h4>FIN.Index</h4>
-       <figure><img src="../images/5.png"></figure>
-       <figure><img src="../images/11.png"></figure>
+       <figure><img src="../images/5.png" /></figure>
+       <figure><img src="../images/11.png" /></figure>
 
     <figure><code>
 def event(:init)
@@ -190,8 +176,8 @@ def event({:off, form})
 
        <h3>LDAP</h3>
        <h4>LDAP.Index</h4>
-       <figure><img src="../images/9.png"></figure>
-       <figure><img src="../images/4.png"></figure>
+       <figure><img src="../images/9.png" /></figure>
+       <figure><img src="../images/4.png" /></figure>
 
     <figure><code>
 def event(:init)
@@ -209,19 +195,16 @@ def event({:off, form})
            тобто адміністратори даних та процесів.</p>
 
    <p>
-ldap — LDAP.Index<br>
-form — FORM.Index<br>
-act — BPE.Actor<br>
-bpe — BPE.Index<br>
-kvs — KVS.Index<br>
-plm — PLM.Index<br>
-cashflow — PLM.CashFlow<br>
+ldap — LDAP.Index<br />
+form — FORM.Index<br />
+act — BPE.Actor<br />
+bpe — BPE.Index<br />
+kvs — KVS.Index<br />
+plm — PLM.Index<br />
+cashflow — PLM.CashFlow<br />
     </p>
 
 
        <p>— <a href="https://github.com/enterprizing/plm">enterprizing/plm</a></p>
     </section>
-</main>
-<footer>Namdak Tonpa <span class="heart">&nbsp;❤&nbsp;</span> 2009—2019</footer>
-</body>
-</html>
+</main><footer>Namdak Tonpa <span class="heart">&#160;❤&#160;</span> 2009—2019</footer></body></html>
