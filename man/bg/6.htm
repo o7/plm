@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="Radostin Dimitrov">
+<title>2019-07-01</title>
+<link rel="stylesheet" href="https://tonpa.guru/blank.css?v=2"></head>
+<body><nav>
+    <a href="../../index.html">PLM</a>
+    <a href="1.htm">1</a>
+    <a href="2.htm">2</a>
+    <a href="3.htm">3</a>
+    <a href="4.htm">4</a>
+    <a href="5.htm">5</a>
+    <a href="6.htm" style="background:#ededed;">6</a>
+    <a href="7.htm">7</a>
+    <a href="../ua/6.htm">UA</a>
+    <a href="../bg/6.htm" style="background:#ededed;">BG</a>
+    <a href="../ru/6.htm">RU</a>
+</nav>
+<header>
+</header><main>
+    <section>
+        <h3>Част 6. Структура на приложението PLM</h3>
+
+    </section>
+    <section>
+
+      <h3>Изложение на проблема</h3>
+
+      <p> В части 3 и 4 ви показваме как да напишете прости, универсални
+      администратори за основните обекти на вашата компания - данни и процеси. В
+      този раздел показваме прототипна структурата на PLM еликсир приложение за
+      управление на външно предприятие, занимаващо се с аутсорсинг дейност.
+      Изискванията за това приложение са формулирани в част 1, а първоначалната
+      структура на самото предприятие и неговите ресурси е скрита в ERP
+      приложението (което би трябвало да се пази е частно хранилище). Но за
+      например цялата прозрачност на счетоводството, самите програмисти,
+      организационната структура на предприятието е напълно оповестена публично,
+      заедно с фактури и обобщени суми за листове за заплати, но без подробности
+      за заплатата, но с почасово разпределение на работното време (оценките са
+      анонимни, опциите се изчисляват независимо от оценки). В допълнение към
+      опциите можете да инвестирате в проекти на тази аутсорсинг компания за
+      сигурността на собствените проекти на компанията, която се натрупва в
+      съответната подсметка след изчисляване на нетната неразпределена печалба.
+      Общият брой на артикулите за разпространение не е много: 1) резервът на
+      компанията; 2) кредитиране на други проекти; 3) опции за програмист; 4)
+      изследвания и разработки.</p>
+
+
+        <h3>Конфигурация</h3>
+
+        <p>За да не пишем тази прелюдия за всяка програма, нека покажем например
+        PLM проект, който вече включва почти целия стек: N2O, KVS, BPE, както и
+        други N2O протоколи CHAT, NITRO. NITRO е порт, написан от Nitrogen Web
+        Framework на Rusty Clophouse.</p>
+
+        <h4>config/config.exs</h4>
+   <figure><code>
+use Mix.Config
+
+config :n2o,
+  pickler: :n2o_secret,
+  mq: :n2o_syn,
+  port: 8043,
+  proto: CHAT.Server
+  mqtt_services: ['erp', 'plm'],
+  ws_services: ['chat'],
+  upload: "./priv/static",
+  routes: <font color="red">KVS.Routes</font>,
+  protocols:
+  [
+    :n2o_heart,
+    :n2o_nitro,
+    :n2o_ftp,
+    :bpe_n2o,
+    CHAT.TXT
+  ]
+
+config :kvs,
+  dba: :kvs_rocks,
+  dba_st: :kvs_st,
+  schema:
+  [
+    :kvs,
+    :kvs_stream,
+    :bpe_metainfo
+  ]
+
+config :erp,
+  boot:
+  [
+    :erp_boot,
+    :acc_boot,
+    :pay_boot,
+    :plm_boot,
+    :fin_boot
+  ]
+      </code></figure>
+
+        <h3>Публикуване</h3>
+
+        <h4>mix.exs</h4>
+   <figure><code>
+defmodule PLM.Mixfile do
+  use Mix.Project
+
+  def project() do
+    [
+      app: :plm,
+      version: "0.7.1",
+      elixir: "~&gt; 1.8.1",
+      description: "PLM",
+      deps: deps()
+    ]
+  end
+
+  def application() do
+    [
+      mod: {PLM.Application, []},
+      applications:
+      [
+        :ranch,
+        :cowboy,
+        :rocksdb,
+        :kvs,
+        :syn,
+        :erp,
+        :bpe,
+        :n2o,
+        :chat
+      ]
+    ]
+  end
+
+  def deps() do
+    [
+      {:ex_doc, "~&gt; 0.20.2", only: :dev},
+      {:cowboy, "~&gt; 2.5.0"},
+      {:rocksdb, "~&gt; 1.2.0"},
+      {:chat, "~&gt; 3.7.2"},
+      {:n2o, "~&gt; 6.7.1"},
+      {:syn, "~&gt; 1.6.3"},
+      {:kvs, "~&gt; 6.7.4"},
+      {:erp, "~&gt; 0.7.6"},
+      {:bpe, "~&gt; 4.7.3"},
+      {:nitro, "~&gt; 4.7.3"}
+    ]
+  end
+emd
+    </code></figure>
+
+       <h3>Страници</h3>
+
+       <figure><img src="../images/1.png"></figure>
+
+       <h3>PLM</h3>
+
+       <h4>PLM.Index</h4>
+       <figure><img src="../images/6.png"></figure>
+
+    <figure><code>
+def event(:init)
+def event({:chart, code, x, y, z, i})
+def event({:invest, code})
+    </code></figure>
+
+       <h4>PLM.CashFlow</h4>
+       <figure><img src="../images/7.png"></figure>
+
+    <figure><code>
+def event(:init)
+def event(:create_investment)
+def event(:create_income)
+def event(:create_outcome)
+def event({:discard, []})
+    </code></figure>
+
+       <h3>FIN</h3>
+       <h4>FIN.Index</h4>
+       <figure><img src="../images/5.png"></figure>
+       <figure><img src="../images/11.png"></figure>
+
+    <figure><code>
+def event(:init)
+def event({:txs, proc})
+def event({:off, form})
+    </code></figure>
+
+       <h3>LDAP</h3>
+       <h4>LDAP.Index</h4>
+       <figure><img src="../images/9.png"></figure>
+       <figure><img src="../images/4.png"></figure>
+
+    <figure><code>
+def event(:init)
+def event(:on)
+def event({:auth, form})
+def event({:close, form})
+def event({:revoke, x})
+def event({:off, form})
+    </code></figure>
+
+        <h3>Рутер</h3>
+
+        <p>Рутертъ контролира страниците в Nitrogen Web фреймворку. В този рутер
+        свързваме всички наши модули, разработени в части 3 и 4, т.е.
+        администратори на данни и процеси.</p>
+
+   <p>
+ldap — LDAP.Index<br>
+form — FORM.Index<br>
+act — BPE.Actor<br>
+bpe — BPE.Index<br>
+kvs — KVS.Index<br>
+plm — PLM.Index<br>
+cashflow — PLM.CashFlow<br>
+    </p>
+
+
+       <p>— <a href="https://github.com/enterprizing/plm">enterprizing/plm</a></p>
+    </section>
+</main><footer>Namdak Tonpa <span class="heart">&nbsp;❤&nbsp;</span> 2009—2019</footer></body></html>
