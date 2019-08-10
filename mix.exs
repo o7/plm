@@ -4,7 +4,7 @@ defmodule PLM.Mixfile do
   def project() do
     [
       app: :plm,
-      version: "0.7.3",
+      version: "0.8.1",
       elixir: "~> 1.7",
       description: "PLM Product Lifecycle Management",
       package: package(),
@@ -34,11 +34,11 @@ defmodule PLM.Mixfile do
       {:ex_doc, "~> 0.20.2", only: :dev},
       {:asn1ex, github: "vicentfg/asn1ex", only: :dev},
       {:kvs, "~> 6.7.7"},
-      {:n2o, "~> 6.7.7"},
+      {:n2o, "~> 6.8.1"},
       {:nitro, "~> 4.7.7"},
       {:cowboy, "~> 2.5.0"},
       {:rocksdb, "~> 1.2.0"},
-      {:chat, "~> 3.7.4"},
+      {:chat, "~> 3.8.1"},
       {:syn, "~> 1.6.3"},
       {:erp, "~> 0.7.17"},
       {:bpe, "~> 4.7.5"},
