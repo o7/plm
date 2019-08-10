@@ -14,7 +14,7 @@ defmodule PLM.Mixfile do
 
   def package do
     [
-      files: ~w(doc lib src mix.exs LICENSE),
+      files: ~w(doc lib mix.exs LICENSE),
       licenses: ["ISC"],
       maintainers: ["Namdak Tonpa"],
       name: :plm,
