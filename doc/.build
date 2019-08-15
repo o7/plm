@@ -1,11 +1,11 @@
-dist/search_items-d52a343892.js
+dist/search_items-2679819adc.js
 dist/html-d9f58a6320b5bfa6dd77.css
 dist/html-d9f58a6320b5bfa6dd77.js
 dist/html/fonts/icomoon.eot
 dist/html/fonts/icomoon.svg
 dist/html/fonts/icomoon.ttf
 dist/html/fonts/icomoon.woff
-dist/sidebar_items-fdd06a62fe.js
+dist/sidebar_items-b1936077cc.js
 api-reference.html
 search.html
 404.html
@@ -16,6 +16,8 @@ BPE.Index.html
 BPE.Rows.Process.html
 BPE.Rows.Trace.html
 FIN.Index.html
+FIN.Rows.Account.html
+FIN.Rows.Transaction.html
 FORM.Index.html
 KVS.Index.html
 LDAP.Forms.Access.html
