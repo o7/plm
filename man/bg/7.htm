@@ -5,19 +5,29 @@
 <meta name="description" content="">
 <meta name="author" content="Radostin Dimitrov">
 <title>2019-07-01</title>
-<link rel="stylesheet" href="https://tonpa.guru/blank.css?v=2"></head>
+<link rel="stylesheet" href="https://n2o.dev/blank.css?v=2"></head>
 <body><nav>
     <a href="../../index.html">PLM</a>
-    <a href="1.htm">1</a>
-    <a href="2.htm">2</a>
-    <a href="3.htm">3</a>
-    <a href="4.htm">4</a>
-    <a href="5.htm">5</a>
-    <a href="6.htm">6</a>
-    <a href="7.htm" style="background:#ededed;">7</a>
-    <a href="../ua/7.htm">UA</a>
-    <a href="../bg/7.htm" style="background:#ededed;">BG</a>
-    <a href="../ru/7.htm">RU</a>
+    <div class="dropdown">
+       <a onclick="dropChap()" class="dropbtn">Част 7</a>
+    <div id="dropdownCHAPTER" class="dropdown-content">
+       <a href="1.htm">Част 1</a>
+       <a href="2.htm">Част 2</a>
+       <a href="3.htm">Част 3</a>
+       <a href="4.htm">Част 4</a>
+       <a href="5.htm">Част 5</a>
+       <a href="6.htm">Част 6</a>
+       <a href="7.htm" style="background:#ededed;">Част 7</a>
+     </div>
+     </div>
+    <div class="dropdownLANG">
+       <a onclick="dropLang()" class="dropbtn"  >BG</a>
+    <div id="dropdownLANG" class="dropdown-content">
+       <a href="../ua/7.htm">UA</a>
+       <a href="../bg/7.htm" style="background:#ededed;">BG</a>
+       <a href="../ru/7.htm">RU</a>
+     </div>
+     </div>
 </nav>
 <header>
 </header><main>
@@ -26,4 +36,14 @@
 
 
     </section>
-</main><footer>Namdak Tonpa <span class="heart">&nbsp;❤&nbsp;</span> 2009—2019</footer></body></html>
+</main><footer>Namdak Tonpa <span class="heart">&nbsp;❤&nbsp;</span> 2009—2019</footer></body>
+<script> function dropChap() { document.getElementById("dropdownCHAPTER").classList.toggle("show");
+                               document.getElementById("dropdownCHAPTER").style.display = "block";
+                               document.getElementById("dropdownLANG").style.display = "none";
+                             }
+         function dropLang() { document.getElementById("dropdownLANG").classList.toggle("show");
+                               document.getElementById("dropdownLANG").style.display = "block";
+                               document.getElementById("dropdownCHAPTER").style.display = "none";
+                              }
+</script>
+</html>
