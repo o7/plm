@@ -31,9 +31,20 @@ end
 
 defmodule PLM.Application do
   use Application
+  def home(name) do
+     {:ok,[[dir]]} = :init.get_argument(:home)
+     :filename.join(dir,name)
+  end
+
+  def env() do
+    [{:port,       :application.get_env(:n2o,:port,8043)},
+     {:certfile,   home('depot/synrc/cert/ecc/server.pem')},
+     {:keyfile,    home('depot/synrc/cert/ecc/server.key')},
+     {:cacertfile, home('depot/synrc/cert/ecc/caroot.pem')}]
+  end
 
   def start(_, _) do
-    :cowboy.start_tls(:http, :n2o_cowboy.env(:plm), %{env: %{dispatch: :n2o_cowboy2.points()}})
+    :cowboy.start_tls(:http, env(), %{env: %{dispatch: :n2o_cowboy2.points()}})
     :n2o.start_ws()
     Supervisor.start_link([], strategy: :one_for_one, name: PLM.Supervisor)
   end

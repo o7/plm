@@ -4,7 +4,7 @@ defmodule PLM.Mixfile do
   def project() do
     [
       app: :plm,
-      version: "0.8.1",
+      version: "0.9.1",
       elixir: "~> 1.7",
       description: "PLM Product Lifecycle Management",
       package: package(),
@@ -25,23 +25,22 @@ defmodule PLM.Mixfile do
   def application() do
     [
       mod: {PLM.Application, []},
-      applications: [:syn, :form, :nitro, :ranch, :cowboy, :rocksdb, :kvs, :erp, :bpe, :n2o, :chat]
+      applications: [:syn, :form, :nitro, :ranch, :cowboy, :rocksdb, :kvs, :erp, :bpe, :n2o]
     ]
   end
 
   def deps() do
     [
-      {:ex_doc, "~> 0.20.2", only: :dev},
+      {:ex_doc, "~> 0.11", only: :dev},
       {:asn1ex, github: "vicentfg/asn1ex", only: :dev},
       {:kvs, "~> 6.7.7"},
       {:n2o, "~> 6.8.1"},
       {:nitro, "~> 4.7.7"},
       {:cowboy, "~> 2.5.0"},
-      {:rocksdb, "~> 1.2.0"},
-      {:chat, "~> 3.8.1"},
+      {:rocksdb, "~> 1.3.2"},
       {:syn, "~> 1.6.3"},
-      {:erp, "~> 0.7.17"},
-      {:bpe, "~> 4.7.5"},
+      {:erp, "~> 0.9.2"},
+      {:bpe, "~> 4.9.1"},
       {:form, "~> 4.7.0"}
     ]
   end
